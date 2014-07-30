@@ -1,17 +1,38 @@
 package es.elultimorey.tweetlove;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
-public class inbox extends Activity {
+public class Inbox extends Activity {
+
+    private final Activity mActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
+
+        final EditText editText = (EditText) findViewById(R.id.nickname_inbox);
+        Button btnTwitter = (Button) findViewById(R.id.btnSearch);
+
+        btnTwitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(mActivity, editText.getText(), Toast.LENGTH_LONG).show();
+                Intent i = new Intent(mActivity, Search.class);
+                i.putExtra("user", editText.getText().toString());
+                startActivity(i);
+            }
+        });
     }
 
 
