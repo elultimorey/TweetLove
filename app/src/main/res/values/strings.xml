@@ -3,6 +3,11 @@
 
     <string name="app_name">Tweet Love</string>
     <string name="hello_world">Hello world!</string>
+    <string name="arroba">\@</string>
+    <string name="input">username</string>
     <string name="action_settings">Settings</string>
+    <string name="Paco">New Text</string>
+    <string name="arroba">New Text</string>
+    <string name="input">ahora?</string>
 
 </resources>
