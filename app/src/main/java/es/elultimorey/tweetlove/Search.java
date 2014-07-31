@@ -10,8 +10,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,6 +41,7 @@ public class Search extends Activity {
     //TODO: Solo busca el nombre del usuario que se le pasa
 
     private final Activity mActivity = this;
+    private RelativeLayout lovedLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +55,15 @@ public class Search extends Activity {
             nombre = extras.getString("user");
         }
 
+        lovedLayout = (RelativeLayout) findViewById(R.id.loved_layout);
+        lovedLayout.setAlpha(0);
+
         String[] array = {nombre};
         TextView screenName = (TextView) findViewById(R.id.auxTextView);
         ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
         MyAsyncTask mt = new MyAsyncTask(screenName, profileImage);
         mt.execute(array);
+
     }
 
 
@@ -136,6 +145,9 @@ public class Search extends Activity {
                     textView.setText(user);
                 }
             }
+
+            lovedLayout.setAlpha(100);
+            YoYo.with(Techniques.BounceIn).duration(1200).playOn(findViewById(R.id.loved_layout));
         }
 
         private Bitmap downloadBitmap(String url) {

@@ -29,4 +29,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/twitter4j-core-4.0.2.jar')
+    compile files('libs/AndroidEasingFunctions-1.0.0.jar')
+    compile files('libs/AndroidViewAnimations-1.0.6.jar')
+    compile files('libs/NineOldAndroid-2.4.0.jar')
 }

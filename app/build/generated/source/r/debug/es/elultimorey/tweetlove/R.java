@@ -62,12 +62,13 @@ containing a value of this type.
         public static final int temp=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f090006;
+        public static final int action_settings=0x7f090007;
         public static final int arroba_tv=0x7f090001;
-        public static final int auxTextView=0x7f090005;
+        public static final int auxTextView=0x7f090006;
         public static final int btnSearch=0x7f090003;
+        public static final int loved_layout=0x7f090004;
         public static final int nickname_inbox=0x7f090002;
-        public static final int profileImage=0x7f090004;
+        public static final int profileImage=0x7f090005;
         public static final int quote=0x7f090000;
     }
     public static final class layout {
