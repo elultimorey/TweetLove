@@ -1,7 +1,6 @@
 package es.elultimorey.tweetlove.Twitter;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -11,8 +10,8 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * Created by jose on 31/07/14.
  */
-public class Controlador {
-    private static Controlador INSTANCE = new Controlador();
+public class ControladorTwitter {
+    private static ControladorTwitter INSTANCE = new ControladorTwitter();
 
     //TODO: Añadir y borrar keys
     private static final String CONSUMER_KEY = " ";
@@ -24,7 +23,7 @@ public class Controlador {
         return twitter;
     }
 
-    private Controlador() {
+    private ControladorTwitter() {
 
         OAuth2Token token;
 
@@ -41,7 +40,7 @@ public class Controlador {
         twitter = new TwitterFactory(cb.build()).getInstance();
     }
 
-    public static Controlador getInstance() {
+    public static ControladorTwitter getInstance() {
         return INSTANCE;
     }
 

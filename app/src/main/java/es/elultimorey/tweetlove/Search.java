@@ -10,12 +10,9 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-import es.elultimorey.tweetlove.Twitter.Controlador;
+import es.elultimorey.tweetlove.Twitter.ControladorTwitter;
 import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
 import twitter4j.User;
-import twitter4j.auth.OAuth2Token;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class Search extends Activity {
 
@@ -72,7 +69,7 @@ public class Search extends Activity {
         }
 
         protected String doInBackground(String... user) {
-            Twitter twitter = Controlador.getInstance().getTwitter();
+            Twitter twitter = ControladorTwitter.getInstance().getTwitter();
 
             // TODO: Obtener los tweets recientes y recorrer.
 
