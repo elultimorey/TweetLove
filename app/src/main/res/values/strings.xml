@@ -9,6 +9,6 @@
     <string name="Paco">New Text</string>
     <string name="search">\u2764</string>
     <string name="title_activity_search">Tweet Love</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="screenName">Hello world!</string>
 
 </resources>

@@ -1,16 +1,28 @@
 package es.elultimorey.tweetlove;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import es.elultimorey.tweetlove.Twitter.ControladorTwitter;
@@ -38,11 +50,10 @@ public class Search extends Activity {
             nombre = extras.getString("user");
         }
 
-        Toast.makeText(mActivity, nombre, Toast.LENGTH_LONG).show();
-
         String[] array = {nombre};
-        TextView tv = (TextView) findViewById(R.id.auxTextView);
-        MyAsyncTask mt = new MyAsyncTask(tv);
+        TextView screenName = (TextView) findViewById(R.id.auxTextView);
+        ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
+        MyAsyncTask mt = new MyAsyncTask(screenName, profileImage);
         mt.execute(array);
     }
 
@@ -68,10 +79,14 @@ public class Search extends Activity {
 
     private class MyAsyncTask extends AsyncTask<String, Float, String> {
 
-        private final WeakReference<TextView> TVR;
+        private final WeakReference<TextView> screenNameWeakReference;
+        private final WeakReference<ImageView> profileImageWeakReference;
 
-        public MyAsyncTask(TextView name) {
-            TVR = new WeakReference<TextView>(name);
+        private Bitmap image = null;
+
+        public MyAsyncTask(TextView screenName, ImageView profileImage) {
+            screenNameWeakReference = new WeakReference<TextView>(screenName);
+            profileImageWeakReference = new WeakReference<ImageView>(profileImage);
         }
 
         protected String doInBackground(String... users) {
@@ -96,25 +111,44 @@ public class Search extends Activity {
 
                 // TODO favs? contemplar
 
-                String mMentioned = mentioned.getMoreMentioned();
-
-                return mMentioned;
+                String screenNameMMentioned = mentioned.getMoreMentioned();
+                User mMentioned = twitter.showUser(screenNameMMentioned.substring(1, screenNameMMentioned.length()));
+                image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
+                return screenNameMMentioned;
             } catch (Exception e) {
-                return "Error al comprobar el usuario";
+                return null;
             }
         }
         @Override
-        protected void onPostExecute(String nombre) {
+        protected void onPostExecute(String user) {
             if (isCancelled()) {
-                nombre = null;
+                user = null;
             }
-
-            if (TVR != null) {
-                TextView textView = TVR.get();
-                if (textView != null) {
-                    textView.setText(nombre);
+            if (profileImageWeakReference != null) {
+                ImageView imageView = profileImageWeakReference.get();
+                if (imageView != null && image != null) {
+                    imageView.setImageBitmap(image);
                 }
             }
+            if (screenNameWeakReference != null) {
+                TextView textView = screenNameWeakReference.get();
+                if (textView != null) {
+                    textView.setText(user);
+                }
+            }
+        }
+
+        private Bitmap downloadBitmap(String url) {
+            URL imageUrl = null;
+            try {
+                imageUrl = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+                conn.connect();
+                return BitmapFactory.decodeStream(conn.getInputStream());
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Error cargando la imagen: "+e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            return null;
         }
 
     }

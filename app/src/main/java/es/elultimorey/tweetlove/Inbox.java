@@ -26,8 +26,6 @@ public class Inbox extends Activity {
         btnTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(mActivity, editText.getText(), Toast.LENGTH_LONG).show();
                 Intent i = new Intent(mActivity, Search.class);
                 i.putExtra("user", editText.getText().toString());
                 startActivity(i);
