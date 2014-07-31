@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+import es.elultimorey.tweetlove.Twitter.Controlador;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.User;
@@ -63,10 +64,6 @@ public class Search extends Activity {
     }
 
     private class MyAsyncTask extends AsyncTask<String, Float, String> {
-        //TODO: Añadir keys
-        private static final String CONSUMER_KEY = " ";
-        private static final String CONSUMER_SECRET = " ";
-
 
         private final WeakReference<TextView> TVR;
 
@@ -75,19 +72,7 @@ public class Search extends Activity {
         }
 
         protected String doInBackground(String... user) {
-            OAuth2Token token;
-
-            token = getOAuth2Token();
-
-            ConfigurationBuilder cb = new ConfigurationBuilder();
-
-            cb.setApplicationOnlyAuthEnabled(true);
-            cb.setOAuthConsumerKey(CONSUMER_KEY);
-            cb.setOAuthConsumerSecret(CONSUMER_SECRET);
-            cb.setOAuth2TokenType(token.getTokenType());
-            cb.setOAuth2AccessToken(token.getAccessToken());
-
-            Twitter twitter = new TwitterFactory(cb.build()).getInstance();
+            Twitter twitter = Controlador.getInstance().getTwitter();
 
             // TODO: Obtener los tweets recientes y recorrer.
 
@@ -110,24 +95,6 @@ public class Search extends Activity {
                     textView.setText(nombre);
                 }
             }
-        }
-
-        public OAuth2Token getOAuth2Token() {
-            OAuth2Token token = null;
-            ConfigurationBuilder cb;
-
-            cb = new ConfigurationBuilder();
-            cb.setApplicationOnlyAuthEnabled(true);
-
-            cb.setOAuthConsumerKey(CONSUMER_KEY).setOAuthConsumerSecret(CONSUMER_SECRET);
-
-            try {
-                token = new TwitterFactory(cb.build()).getInstance().getOAuth2Token();
-            } catch (Exception e) {
-                Toast.makeText(mActivity, "Error: No se ha podido obtener OAuth2 token", Toast.LENGTH_LONG).show();
-            }
-
-            return token;
         }
 
     }
