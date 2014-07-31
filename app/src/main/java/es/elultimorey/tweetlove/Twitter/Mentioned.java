@@ -1,5 +1,7 @@
 package es.elultimorey.tweetlove.Twitter;
 
+import android.util.Pair;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +37,7 @@ public class Mentioned {
         for (Map.Entry e: this.mentioned.entrySet()) {
             if ((Integer) e.getValue() > max) {
                 screenName = (String) e.getKey();
+                max = (Integer) e.getValue();
             }
         }
         return screenName;

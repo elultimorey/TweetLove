@@ -14,7 +14,7 @@ import twitter4j.Status;
  */
 public class MentionParser {
 
-    List<String> getMention(Status tweet) {
+    public List<String> getMention(Status tweet) {
 
         List<String> menciones = new LinkedList<String>();
         // Expresión regular sacada de: https://code.google.com/p/javatweet/source/browse/branches/sospartan/src/com/twitter/Regex.java

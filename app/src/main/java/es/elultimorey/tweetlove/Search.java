@@ -3,14 +3,20 @@ package es.elultimorey.tweetlove;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import es.elultimorey.tweetlove.Twitter.ControladorTwitter;
+import es.elultimorey.tweetlove.Twitter.MentionParser;
+import es.elultimorey.tweetlove.Twitter.Mentioned;
+import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.User;
 
@@ -68,14 +74,31 @@ public class Search extends Activity {
             TVR = new WeakReference<TextView>(name);
         }
 
-        protected String doInBackground(String... user) {
-            Twitter twitter = ControladorTwitter.getInstance().getTwitter();
-
-            // TODO: Obtener los tweets recientes y recorrer.
-
+        protected String doInBackground(String... users) {
             try {
-                User usuario = twitter.showUser(user[0]);
-                return usuario.getName();
+                Twitter twitter = ControladorTwitter.getInstance().getTwitter();
+                User user = twitter.showUser(users[0]);
+
+                Mentioned mentioned = new Mentioned();
+
+                Paging paging = new Paging(1, 100); // Para más peticiones paging.setPage(2)...
+                List<twitter4j.Status> tweets = null;
+                tweets = twitter.getUserTimeline(user.getScreenName(), paging);
+                twitter4j.Status status;
+                List<String> mentionedList;
+                for (int i = 0; i < tweets.size(); i++) {
+                    status = tweets.get(i);
+                    mentionedList = new MentionParser().getMention(status);
+                    if (mentionedList.size()>0) {
+                        mentioned.addMentioned(mentionedList);
+                    }
+                }
+
+                // TODO favs? contemplar
+
+                String mMentioned = mentioned.getMoreMentioned();
+
+                return mMentioned;
             } catch (Exception e) {
                 return "Error al comprobar el usuario";
             }
