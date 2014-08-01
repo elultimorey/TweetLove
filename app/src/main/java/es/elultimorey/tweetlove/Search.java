@@ -3,12 +3,11 @@ package es.elultimorey.tweetlove;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,13 +16,7 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -32,6 +25,7 @@ import java.util.List;
 import es.elultimorey.tweetlove.Twitter.ControladorTwitter;
 import es.elultimorey.tweetlove.Twitter.MentionParser;
 import es.elultimorey.tweetlove.Twitter.Mentioned;
+import es.elultimorey.tweetlove.UI.CircularImageView;
 import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.User;
@@ -42,6 +36,7 @@ public class Search extends Activity {
 
     private final Activity mActivity = this;
     private RelativeLayout lovedLayout;
+    private RelativeLayout lovedLayoutWho;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +52,43 @@ public class Search extends Activity {
 
         lovedLayout = (RelativeLayout) findViewById(R.id.loved_layout);
         lovedLayout.setAlpha(0);
+        lovedLayoutWho = (RelativeLayout) findViewById(R.id.loved_layout_who);
 
         String[] array = {nombre};
-        TextView screenName = (TextView) findViewById(R.id.auxTextView);
-        ImageView profileImage = (ImageView) findViewById(R.id.profileImage);
-        MyAsyncTask mt = new MyAsyncTask(screenName, profileImage);
+        CircularImageView profileImage = (CircularImageView) findViewById(R.id.profileImage);
+        profileImage.addShadow();
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mActivity, "imageProfile", Toast.LENGTH_SHORT).show();
+            }
+        });
+        TextView name = (TextView) findViewById(R.id.name);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mActivity, "screenName", Toast.LENGTH_SHORT).show();
+                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
+                YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
+                YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
+                YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
+            }
+        });
+        TextView screenName = (TextView) findViewById(R.id.screenName);
+        screenName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mActivity, "screenName", Toast.LENGTH_SHORT).show();
+                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
+                YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
+                YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
+                YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
+            }
+        });
+        MyAsyncTask mt = new MyAsyncTask(profileImage, name, screenName);
         mt.execute(array);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,19 +109,21 @@ public class Search extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class MyAsyncTask extends AsyncTask<String, Float, String> {
+    private class MyAsyncTask extends AsyncTask<String, Float, User> {
 
-        private final WeakReference<TextView> screenNameWeakReference;
         private final WeakReference<ImageView> profileImageWeakReference;
+        private final WeakReference<TextView> nameWeakReference;
+        private final WeakReference<TextView> screenNameWeakReference;
 
         private Bitmap image = null;
 
-        public MyAsyncTask(TextView screenName, ImageView profileImage) {
-            screenNameWeakReference = new WeakReference<TextView>(screenName);
+        public MyAsyncTask(ImageView profileImage, TextView name, TextView screenName) {
             profileImageWeakReference = new WeakReference<ImageView>(profileImage);
+            nameWeakReference = new WeakReference<TextView>(name);
+            screenNameWeakReference = new WeakReference<TextView>(screenName);
         }
 
-        protected String doInBackground(String... users) {
+        protected User doInBackground(String... users) {
             try {
                 Twitter twitter = ControladorTwitter.getInstance().getTwitter();
                 User user = twitter.showUser(users[0]);
@@ -118,18 +143,15 @@ public class Search extends Activity {
                     }
                 }
 
-                // TODO favs? contemplar
-
-                String screenNameMMentioned = mentioned.getMoreMentioned();
-                User mMentioned = twitter.showUser(screenNameMMentioned.substring(1, screenNameMMentioned.length()));
+                User mMentioned = twitter.showUser(mentioned.getMoreMentioned().substring(1, mentioned.getMoreMentioned().length()));
                 image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
-                return screenNameMMentioned;
+                return mMentioned;
             } catch (Exception e) {
                 return null;
             }
         }
         @Override
-        protected void onPostExecute(String user) {
+        protected void onPostExecute(User user) {
             if (isCancelled()) {
                 user = null;
             }
@@ -139,15 +161,24 @@ public class Search extends Activity {
                     imageView.setImageBitmap(image);
                 }
             }
+            if (nameWeakReference != null) {
+                TextView textView = nameWeakReference.get();
+                if (textView != null) {
+                    textView.setText(user.getName());
+                }
+            }
             if (screenNameWeakReference != null) {
                 TextView textView = screenNameWeakReference.get();
                 if (textView != null) {
-                    textView.setText(user);
+                    textView.setText("@"+user.getScreenName());
                 }
             }
-
+            lovedLayoutWho.setAlpha(0);
             lovedLayout.setAlpha(100);
-            YoYo.with(Techniques.BounceIn).duration(1200).playOn(findViewById(R.id.loved_layout));
+            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
+            YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
+            YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
+            YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
         }
 
         private Bitmap downloadBitmap(String url) {

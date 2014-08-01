@@ -4,9 +4,8 @@
     <string name="app_name">Tweet Love</string>
     <string name="quote">Love is in the air</string>
     <string name="arroba">\@</string>
-    <string name="input">username</string>
+    <string name="input">Username</string>
     <string name="action_settings">Settings</string>
-    <string name="Paco">New Text</string>
     <string name="search">\u2764</string>
     <string name="title_activity_search">Tweet Love</string>
     <string name="screenName">Hello world!</string>

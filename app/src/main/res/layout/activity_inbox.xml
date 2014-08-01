@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/quote"
-        style="@style/arroba_text" />
+        style="@style/burdens_text" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,28 +24,28 @@
         android:layout_alignTop="@+id/nickname_inbox"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        style="@style/arroba_text"
+        style="@style/burdens_text"
         android:layout_marginTop="5dp" />
 
     <EditText
-        android:text="@string/input"
+        android:hint="@string/input"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/nickname_inbox"
         android:inputType="text"
         android:height="50dp"
         android:layout_below="@+id/quote"
-        android:layout_toRightOf="@+id/arroba_tv"
-        android:layout_toEndOf="@+id/arroba_tv" />
+        android:layout_toRightOf="@+id/arroba_tv" />
 
     <Button
         android:layout_height="wrap_content"
         android:text="@string/search"
         android:id="@+id/btnSearch"
-        android:layout_alignTop="@+id/arroba_tv"
+        android:layout_alignTop="@+id/nickname_inbox"
         android:layout_toRightOf="@+id/nickname_inbox"
         android:layout_toEndOf="@+id/nickname_inbox"
         android:gravity="center_horizontal"
-        android:layout_width="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_alignBottom="@+id/nickname_inbox" />
 
 </RelativeLayout>
