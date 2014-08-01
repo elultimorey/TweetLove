@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -142,7 +141,7 @@ public class Search extends Activity {
                 Twitter twitter = ControladorTwitter.getInstance().getTwitter();
                 User user = twitter.showUser(users[0]);
 
-                Mentioned mentioned = new Mentioned();
+                Mentioned mentioned = new Mentioned(user.getScreenName());
 
                 Paging paging = new Paging(1, 100); // Para más peticiones paging.setPage(2)...
                 List<twitter4j.Status> tweets = null;

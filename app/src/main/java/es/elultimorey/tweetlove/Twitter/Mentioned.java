@@ -1,7 +1,5 @@
 package es.elultimorey.tweetlove.Twitter;
 
-import android.util.Pair;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,9 +10,11 @@ import java.util.Map;
  */
 public class Mentioned {
     private HashMap<String, Integer> mentioned;
+    private String userScreenName;
 
-    public Mentioned () {
+    public Mentioned (String screenName) {
         this.mentioned = new HashMap<String, Integer>();
+        this.userScreenName = screenName;
     }
 
     public void addMentioned(String mention) {
@@ -35,7 +35,7 @@ public class Mentioned {
         Integer max = 0;
         Iterator it = this.mentioned.entrySet().iterator();
         for (Map.Entry e: this.mentioned.entrySet()) {
-            if ((Integer) e.getValue() > max) {
+            if (((Integer) e.getValue() > max) && !(((String)e.getKey()).equals(" @"+userScreenName))) {
                 screenName = (String) e.getKey();
                 max = (Integer) e.getValue();
             }
