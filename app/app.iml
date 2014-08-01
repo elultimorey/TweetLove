@@ -63,6 +63,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="AndroidViewAnimations-1.0.6" level="project" />
     <orderEntry type="library" exported="" name="twitter4j-core-4.0.2" level="project" />
+    <orderEntry type="library" exported="" name="CircularFloatingActionMenu-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="AndroidEasingFunctions-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="NineOldAndroid-2.4.0" level="project" />
   </component>

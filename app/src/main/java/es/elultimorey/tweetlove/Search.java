@@ -1,12 +1,17 @@
 package es.elultimorey.tweetlove;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -15,11 +20,16 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 import es.elultimorey.tweetlove.Twitter.ControladorTwitter;
@@ -37,6 +47,9 @@ public class Search extends Activity {
     private final Activity mActivity = this;
     private RelativeLayout lovedLayout;
     private RelativeLayout lovedLayoutWho;
+    private FloatingActionMenu rightLowerMenu;
+    private String userScreenName;
+    private String lovedScreenName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +61,7 @@ public class Search extends Activity {
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {
             nombre = extras.getString("user");
+            userScreenName = nombre;
         }
 
         lovedLayout = (RelativeLayout) findViewById(R.id.loved_layout);
@@ -60,31 +74,31 @@ public class Search extends Activity {
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mActivity, "imageProfile", Toast.LENGTH_SHORT).show();
+                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.profileImage));
+            }
+        });
+        RelativeLayout lineLayout = (RelativeLayout) findViewById(R.id.line);
+        lineLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
             }
         });
         TextView name = (TextView) findViewById(R.id.name);
         name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mActivity, "screenName", Toast.LENGTH_SHORT).show();
-                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
-                YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
-                YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
-                YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
+                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.names_layout));
             }
         });
         TextView screenName = (TextView) findViewById(R.id.screenName);
         screenName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mActivity, "screenName", Toast.LENGTH_SHORT).show();
-                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
-                YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
-                YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
-                YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
+                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.names_layout));
             }
         });
+
         MyAsyncTask mt = new MyAsyncTask(profileImage, name, screenName);
         mt.execute(array);
 
@@ -179,6 +193,61 @@ public class Search extends Activity {
             YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
             YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
             YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
+
+            // FloatingActionButton: https://github.com/oguzbilgener/CircularFloatingActionMenu
+            int shareActionButtonSize = getResources().getDimensionPixelSize(R.dimen.radius);
+            int shareActionButtonMargin = getResources().getDimensionPixelOffset(R.dimen.action_button_margin);
+
+            ImageView fabIconNew = new ImageView(mActivity);
+            fabIconNew.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_share));
+
+            FloatingActionButton.LayoutParams starParams = new FloatingActionButton.LayoutParams(shareActionButtonSize, shareActionButtonSize);
+            starParams.setMargins(shareActionButtonMargin,
+                    shareActionButtonMargin,
+                    shareActionButtonMargin,
+                    shareActionButtonMargin);
+
+            FloatingActionButton rightLowerButton = new FloatingActionButton.Builder(mActivity)
+                    .setContentView(fabIconNew)
+                    .setBackgroundDrawable(R.drawable.button_action_selector)
+                    .setLayoutParams(starParams)
+                    .build();
+
+            SubActionButton.Builder lCSubBuilder = new SubActionButton.Builder(mActivity);
+            lCSubBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_action_selector));
+            ImageView rlIconTwitter = new ImageView(mActivity);
+            ImageView rlIconShare = new ImageView(mActivity);
+
+            rlIconTwitter.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_twitter));
+            rlIconShare.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_share));
+
+            rightLowerMenu = new FloatingActionMenu.Builder(mActivity)
+                    .addSubActionView(lCSubBuilder.setContentView(rlIconTwitter).build())
+                    .addSubActionView(lCSubBuilder.setContentView(rlIconShare).build())
+                    .attachTo(rightLowerButton)
+                    .build();
+            rlIconTwitter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Create intent using ACTION_VIEW and a normal Twitter url:
+                    String tweetUrl =
+                            String.format("https://twitter.com/intent/tweet?text=%s&url=%s",
+                                    urlEncode("I just discovered that" ), urlEncode("URL"));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl));
+
+                    // Narrow down to official Twitter app, if available:
+                    List<ResolveInfo> matches = getPackageManager().queryIntentActivities(intent, 0);
+                    for (ResolveInfo info : matches) {
+                        if (info.activityInfo.packageName.toLowerCase().startsWith("com.twitter")) {
+                            intent.setPackage(info.activityInfo.packageName);
+                        }
+                    }
+
+                    startActivity(intent);
+                }
+            });
+
+
         }
 
         private Bitmap downloadBitmap(String url) {
@@ -194,5 +263,16 @@ public class Search extends Activity {
             return null;
         }
 
+
+    }
+
+    public String urlEncode(String s) {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            Log.wtf("urlEnconde", "UTF-8 should always be supported", e);
+            throw new RuntimeException("URLEncoder.encode() failed for " + s);
+        }
     }
 }

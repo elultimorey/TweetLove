@@ -52,17 +52,39 @@ containing a value of this type.
     public static final class color {
         public static final int blue=0x7f040000;
         public static final int text_shadow=0x7f040001;
+        public static final int white=0x7f040002;
     }
     public static final class dimen {
-        public static final int activity_horizontal_margin=0x7f050000;
-        public static final int activity_vertical_margin=0x7f050001;
+        public static final int action_button_content_margin=0x7f050000;
+        public static final int action_button_margin=0x7f050001;
+        public static final int action_button_size=0x7f050002;
+        public static final int action_menu_radius=0x7f050003;
+        public static final int activity_horizontal_margin=0x7f050004;
+        public static final int activity_vertical_margin=0x7f050005;
+        public static final int radius=0x7f050006;
+        public static final int sub_action_button_content_margin=0x7f050007;
+        public static final int sub_action_button_size=0x7f050008;
     }
     public static final class drawable {
         public static final int blue=0x7f020000;
         public static final int blue_pattern=0x7f020001;
-        public static final int gnar=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
-        public static final int temp=0x7f020004;
+        public static final int button_action=0x7f020002;
+        public static final int button_action_dark=0x7f020003;
+        public static final int button_action_dark_selector=0x7f020004;
+        public static final int button_action_dark_touch=0x7f020005;
+        public static final int button_action_selector=0x7f020006;
+        public static final int button_action_touch=0x7f020007;
+        public static final int button_action_twitter=0x7f020008;
+        public static final int button_action_twitter_touch=0x7f020009;
+        public static final int button_sub_action=0x7f02000a;
+        public static final int button_sub_action_dark=0x7f02000b;
+        public static final int button_sub_action_dark_selector=0x7f02000c;
+        public static final int button_sub_action_dark_touch=0x7f02000d;
+        public static final int button_sub_action_selector=0x7f02000e;
+        public static final int button_sub_action_touch=0x7f02000f;
+        public static final int ic_action_share=0x7f020010;
+        public static final int ic_action_twitter=0x7f020011;
+        public static final int ic_launcher=0x7f020012;
     }
     public static final class id {
         public static final int action_settings=0x7f09000c;
