@@ -169,84 +169,89 @@ public class Search extends Activity {
             if (isCancelled()) {
                 user = null;
             }
-            if (profileImageWeakReference != null) {
-                ImageView imageView = profileImageWeakReference.get();
-                if (imageView != null && image != null) {
-                    imageView.setImageBitmap(image);
-                }
-            }
-            if (nameWeakReference != null) {
-                TextView textView = nameWeakReference.get();
-                if (textView != null) {
-                    textView.setText(user.getName());
-                }
-            }
-            if (screenNameWeakReference != null) {
-                TextView textView = screenNameWeakReference.get();
-                if (textView != null) {
-                    textView.setText("@"+user.getScreenName());
-                }
-            }
-            lovedLayoutWho.setAlpha(0);
-            lovedLayout.setAlpha(100);
-            YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
-            YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
-            YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
-            YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
-
-            // FloatingActionButton: https://github.com/oguzbilgener/CircularFloatingActionMenu
-            int shareActionButtonSize = getResources().getDimensionPixelSize(R.dimen.radius);
-            int shareActionButtonMargin = getResources().getDimensionPixelOffset(R.dimen.action_button_margin);
-
-            ImageView fabIconNew = new ImageView(mActivity);
-            fabIconNew.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_share));
-
-            FloatingActionButton.LayoutParams starParams = new FloatingActionButton.LayoutParams(shareActionButtonSize, shareActionButtonSize);
-            starParams.setMargins(shareActionButtonMargin,
-                    shareActionButtonMargin,
-                    shareActionButtonMargin,
-                    shareActionButtonMargin);
-
-            FloatingActionButton rightLowerButton = new FloatingActionButton.Builder(mActivity)
-                    .setContentView(fabIconNew)
-                    .setBackgroundDrawable(R.drawable.button_action_selector)
-                    .setLayoutParams(starParams)
-                    .build();
-
-            SubActionButton.Builder lCSubBuilder = new SubActionButton.Builder(mActivity);
-            lCSubBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_action_selector));
-            ImageView rlIconTwitter = new ImageView(mActivity);
-            ImageView rlIconShare = new ImageView(mActivity);
-
-            rlIconTwitter.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_twitter));
-            rlIconShare.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_share));
-
-            rightLowerMenu = new FloatingActionMenu.Builder(mActivity)
-                    .addSubActionView(lCSubBuilder.setContentView(rlIconTwitter).build())
-                    .addSubActionView(lCSubBuilder.setContentView(rlIconShare).build())
-                    .attachTo(rightLowerButton)
-                    .build();
-            rlIconTwitter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Create intent using ACTION_VIEW and a normal Twitter url:
-                    String tweetUrl =
-                            String.format("https://twitter.com/intent/tweet?text=%s&url=%s",
-                                    urlEncode("I just discovered that" ), urlEncode("URL"));
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl));
-
-                    // Narrow down to official Twitter app, if available:
-                    List<ResolveInfo> matches = getPackageManager().queryIntentActivities(intent, 0);
-                    for (ResolveInfo info : matches) {
-                        if (info.activityInfo.packageName.toLowerCase().startsWith("com.twitter")) {
-                            intent.setPackage(info.activityInfo.packageName);
-                        }
+            if (user != null) {
+                if (profileImageWeakReference != null) {
+                    ImageView imageView = profileImageWeakReference.get();
+                    if (imageView != null && image != null) {
+                        imageView.setImageBitmap(image);
                     }
-
-                    startActivity(intent);
                 }
-            });
+                if (nameWeakReference != null) {
+                    TextView textView = nameWeakReference.get();
+                    if (textView != null) {
+                        textView.setText(user.getName());
+                    }
+                }
+                if (screenNameWeakReference != null) {
+                    TextView textView = screenNameWeakReference.get();
+                    if (textView != null) {
+                        textView.setText("@" + user.getScreenName());
+                    }
+                }
+                lovedLayoutWho.setAlpha(0);
+                lovedLayout.setAlpha(100);
+                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
+                YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
+                YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
+                YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
 
+                // FloatingActionButton: https://github.com/oguzbilgener/CircularFloatingActionMenu
+                int shareActionButtonSize = getResources().getDimensionPixelSize(R.dimen.radius);
+                int shareActionButtonMargin = getResources().getDimensionPixelOffset(R.dimen.action_button_margin);
+
+                ImageView fabIcon = new ImageView(mActivity);
+                fabIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_share));
+
+                FloatingActionButton.LayoutParams layoutParams = new FloatingActionButton.LayoutParams(shareActionButtonSize, shareActionButtonSize);
+                layoutParams.setMargins(shareActionButtonMargin,
+                        shareActionButtonMargin,
+                        shareActionButtonMargin,
+                        shareActionButtonMargin);
+
+                FloatingActionButton rightLowerButton = new FloatingActionButton.Builder(mActivity)
+                        .setContentView(fabIcon)
+                        .setBackgroundDrawable(R.drawable.button_action_selector)
+                        .setLayoutParams(layoutParams)
+                        .build();
+
+                SubActionButton.Builder lCSubBuilder = new SubActionButton.Builder(mActivity);
+                lCSubBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_action_selector));
+                ImageView rlIconTwitter = new ImageView(mActivity);
+                ImageView rlIconShare = new ImageView(mActivity);
+
+                rlIconTwitter.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_twitter));
+                rlIconShare.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_share));
+
+                rightLowerMenu = new FloatingActionMenu.Builder(mActivity)
+                        .addSubActionView(lCSubBuilder.setContentView(rlIconTwitter).build())
+                        .addSubActionView(lCSubBuilder.setContentView(rlIconShare).build())
+                        .attachTo(rightLowerButton)
+                        .build();
+                rlIconTwitter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Create intent using ACTION_VIEW and a normal Twitter url:
+                        String tweetUrl =
+                                String.format("https://twitter.com/intent/tweet?text=%s&url=%s",
+                                        urlEncode("I just discovered that"), urlEncode("URL"));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl));
+
+                        // Narrow down to official Twitter app, if available:
+                        List<ResolveInfo> matches = getPackageManager().queryIntentActivities(intent, 0);
+                        for (ResolveInfo info : matches) {
+                            if (info.activityInfo.packageName.toLowerCase().startsWith("com.twitter")) {
+                                intent.setPackage(info.activityInfo.packageName);
+                            }
+                        }
+
+                        startActivity(intent);
+                    }
+                });
+            }
+            else {
+                setResult(Inbox.USER_NOT_EXIST);
+                finish();
+            }
 
         }
 

@@ -21,6 +21,8 @@ import com.daimajia.androidanimations.library.YoYo;
 public class Inbox extends Activity {
 
     private final Activity mActivity = this;
+    public final static int SHOW_LOVED = 42;
+    public final static int USER_NOT_EXIST = 21;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class Inbox extends Activity {
                     if (activeNetwork != null && activeNetwork.isConnected()) {// online && have an username
                         Intent i = new Intent(mActivity, Search.class);
                         i.putExtra("user", usernameInbox.getText().toString());
-                        startActivity(i);
+                        startActivityForResult(i, SHOW_LOVED);
                     } else {
                         // offline
                         report.setText(getResources().getString(R.string.report_network));
@@ -77,5 +79,17 @@ public class Inbox extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (requestCode == SHOW_LOVED) {
+            if (resultCode == USER_NOT_EXIST) {
+                // user dont exist or private
+                TextView report = (TextView) findViewById(R.id.report);
+                report.setText(getResources().getString(R.string.report_user));
+                report.setAlpha(100);
+                YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.report));
+            }
+        }
     }
 }

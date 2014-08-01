@@ -31,7 +31,7 @@ public class Mentioned {
     }
 
     public String getMoreMentioned() {
-        String screenName = "Twitter";      // Valor por defecto si no hay ninguna mención
+        String screenName = "";
         Integer max = 0;
         Iterator it = this.mentioned.entrySet().iterator();
         for (Map.Entry e: this.mentioned.entrySet()) {
