@@ -10,15 +10,7 @@
         <item name="android:background">@color/blue</item>
     </style>
 
-    <style name="burdens_text">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/burdens</item>
-    </style>
-
-    <style name="loved_name">
+    <style name="text_blue_h1">
         <item name="android:textColor">@color/blue</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
@@ -28,7 +20,7 @@
         <item name="android:shadowRadius">1</item>
     </style>
 
-    <style name="loved_screen_name">
+    <style name="text_blue">
         <item name="android:textColor">@color/blue</item>
         <item name="android:textSize">18sp</item>
         <item name="android:shadowColor">@color/text_shadow</item>

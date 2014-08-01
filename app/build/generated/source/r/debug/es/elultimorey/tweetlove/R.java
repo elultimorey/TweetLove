@@ -51,8 +51,7 @@ containing a value of this type.
     }
     public static final class color {
         public static final int blue=0x7f040000;
-        public static final int burdens=0x7f040001;
-        public static final int text_shadow=0x7f040002;
+        public static final int text_shadow=0x7f040001;
     }
     public static final class dimen {
         public static final int activity_horizontal_margin=0x7f050000;
@@ -101,9 +100,8 @@ containing a value of this type.
     public static final class style {
         public static final int AppTheme=0x7f070000;
         public static final int blue_action_bar=0x7f070001;
-        public static final int burdens_text=0x7f070002;
-        public static final int loved_name=0x7f070003;
-        public static final int loved_screen_name=0x7f070004;
+        public static final int text_blue=0x7f070002;
+        public static final int text_blue_h1=0x7f070003;
     }
     public static final class styleable {
         /** Attributes that can be used with a CircularImageView.
