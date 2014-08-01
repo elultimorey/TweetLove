@@ -8,6 +8,8 @@
     <string name="action_settings">Settings</string>
     <string name="search">\u2764</string>
     <string name="title_activity_search">Tweet Love</string>
-    <string name="screenName">Hello world!</string>
+    <string name="report_network">Sin conexión</string>
+    <string name="report_blank">Introduzca un nombre de usuario</string>
+    <string name="report_user">El usuario consultado no existe o tiene el perfil privado</string>
 
 </resources>
