@@ -2,9 +2,11 @@ package es.elultimorey.tweetlove;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -73,13 +75,7 @@ public class Search extends Activity {
             @Override
             public void onClick(View view) {
                 YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.profileImage));
-            }
-        });
-        RelativeLayout lineLayout = (RelativeLayout) findViewById(R.id.line);
-        lineLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
+                openLovedProfile();
             }
         });
         TextView name = (TextView) findViewById(R.id.name);
@@ -87,6 +83,7 @@ public class Search extends Activity {
             @Override
             public void onClick(View view) {
                 YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.names_layout));
+                openLovedProfile();
             }
         });
         TextView screenName = (TextView) findViewById(R.id.screenName);
@@ -94,10 +91,12 @@ public class Search extends Activity {
             @Override
             public void onClick(View view) {
                 YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.names_layout));
+                openLovedProfile();
             }
         });
+        RelativeLayout backgroundImage = (RelativeLayout) findViewById(R.id.profileBackground);
 
-        MyAsyncTask mt = new MyAsyncTask(profileImage, name, screenName);
+        MyAsyncTask mt = new MyAsyncTask(backgroundImage, profileImage, name, screenName);
         mt.execute(array);
 
     }
@@ -123,13 +122,16 @@ public class Search extends Activity {
 
     private class MyAsyncTask extends AsyncTask<String, Float, User> {
 
+        private final WeakReference<RelativeLayout> backgroundWeakReference;
         private final WeakReference<ImageView> profileImageWeakReference;
         private final WeakReference<TextView> nameWeakReference;
         private final WeakReference<TextView> screenNameWeakReference;
 
         private Bitmap image = null;
+        private Bitmap background = null;
 
-        public MyAsyncTask(ImageView profileImage, TextView name, TextView screenName) {
+        public MyAsyncTask(RelativeLayout backgroundImage, ImageView profileImage, TextView name, TextView screenName) {
+            backgroundWeakReference = new WeakReference<RelativeLayout>(backgroundImage);
             profileImageWeakReference = new WeakReference<ImageView>(profileImage);
             nameWeakReference = new WeakReference<TextView>(name);
             screenNameWeakReference = new WeakReference<TextView>(screenName);
@@ -158,6 +160,7 @@ public class Search extends Activity {
                 User mMentioned = twitter.showUser(mentioned.getMoreMentioned().substring(1, mentioned.getMoreMentioned().length()));
                 lovedGlobal = mMentioned;
                 image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
+                background = downloadBitmap(mMentioned.getProfileBackgroundImageURL());
                 return mMentioned;
             } catch (Exception e) {
                 return null;
@@ -169,6 +172,12 @@ public class Search extends Activity {
                 user = null;
             }
             if (user != null) {
+                if (backgroundWeakReference != null) {
+                    RelativeLayout relativeLayout = backgroundWeakReference.get();
+                    if (relativeLayout != null && background != null) {
+                        relativeLayout.setBackgroundDrawable(new BitmapDrawable(getResources(), background));
+                    }
+                }
                 if (profileImageWeakReference != null) {
                     ImageView imageView = profileImageWeakReference.get();
                     if (imageView != null && image != null) {
@@ -189,7 +198,6 @@ public class Search extends Activity {
                 }
                 lovedLayoutWho.setAlpha(0);
                 lovedLayout.setAlpha(100);
-                YoYo.with(Techniques.Pulse).duration(700).playOn(findViewById(R.id.line));
                 YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
                 YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
                 YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
@@ -226,6 +234,7 @@ public class Search extends Activity {
                         .addSubActionView(lCSubBuilder.setContentView(rlIconShare).build())
                         .attachTo(rightLowerButton)
                         .build();
+                // TODO RECONSIDERAR
                 rlIconTwitter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -277,6 +286,23 @@ public class Search extends Activity {
         catch (UnsupportedEncodingException e) {
             Log.wtf("urlEnconde", "UTF-8 should always be supported", e);
             throw new RuntimeException("URLEncoder.encode() failed for " + s);
+        }
+    }
+
+    public void openLovedProfile() {
+        try {
+            // Check if the Twitter app is installed
+            getPackageManager().getPackageInfo("com.twitter.android", 0);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setClassName("com.twitter.android", "com.twitter.android.ProfileActivity");
+            // Don't forget to put the "L" at the end of the id.
+            intent.putExtra("user_id", lovedGlobal.getId());
+            startActivity(intent);
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            // If Twitter app is not installed, start browser.
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/"+lovedGlobal.getScreenName())));
         }
     }
 }
