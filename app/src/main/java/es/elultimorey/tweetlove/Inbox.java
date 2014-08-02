@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -70,6 +71,9 @@ public class Inbox extends Activity {
                         YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.report));
                     }
                 }
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputMethodManager.hideSoftInputFromWindow(usernameInbox.getWindowToken(), 0);
             }
         });
     }
