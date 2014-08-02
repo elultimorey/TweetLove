@@ -51,8 +51,10 @@ containing a value of this type.
     }
     public static final class color {
         public static final int blue=0x7f040000;
-        public static final int text_shadow=0x7f040001;
-        public static final int white=0x7f040002;
+        public static final int button_blue_border=0x7f040001;
+        public static final int button_blue_end=0x7f040002;
+        public static final int text_shadow=0x7f040003;
+        public static final int white=0x7f040004;
     }
     public static final class dimen {
         public static final int action_button_content_margin=0x7f050000;
@@ -82,26 +84,32 @@ containing a value of this type.
         public static final int button_sub_action_dark_touch=0x7f02000d;
         public static final int button_sub_action_selector=0x7f02000e;
         public static final int button_sub_action_touch=0x7f02000f;
-        public static final int ic_action_share=0x7f020010;
-        public static final int ic_action_twitter=0x7f020011;
-        public static final int ic_launcher=0x7f020012;
+        public static final int heart_button_normal=0x7f020010;
+        public static final int heart_button_touch=0x7f020011;
+        public static final int ic_action_share=0x7f020012;
+        public static final int ic_action_twitter=0x7f020013;
+        public static final int ic_actionbar=0x7f020014;
+        public static final int ic_launcher=0x7f020015;
+        public static final int logo=0x7f020016;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000e;
-        public static final int arroba_tv=0x7f090002;
-        public static final int btnSearch=0x7f090004;
-        public static final int inbox_layout=0x7f090000;
-        public static final int line=0x7f090009;
-        public static final int loved_layout=0x7f090008;
-        public static final int loved_layout_who=0x7f090006;
-        public static final int name=0x7f09000c;
-        public static final int names_layout=0x7f09000b;
-        public static final int profileImage=0x7f09000a;
-        public static final int progressBar=0x7f090007;
-        public static final int quote=0x7f090001;
-        public static final int report=0x7f090005;
-        public static final int screenName=0x7f09000d;
-        public static final int username_inbox=0x7f090003;
+        public static final int action_settings=0x7f090010;
+        public static final int arroba_tv=0x7f090004;
+        public static final int btnSearch=0x7f090006;
+        public static final int line=0x7f09000b;
+        public static final int logo=0x7f090001;
+        public static final int loved_layout=0x7f09000a;
+        public static final int loved_layout_who=0x7f090008;
+        public static final int mid_inbox_layout=0x7f090003;
+        public static final int name=0x7f09000e;
+        public static final int names_layout=0x7f09000d;
+        public static final int profileImage=0x7f09000c;
+        public static final int progressBar=0x7f090009;
+        public static final int quote=0x7f090002;
+        public static final int report=0x7f090007;
+        public static final int screenName=0x7f09000f;
+        public static final int topmid_inbox_layout=0x7f090000;
+        public static final int username_inbox=0x7f090005;
     }
     public static final class layout {
         public static final int activity_inbox=0x7f030000;
@@ -116,18 +124,21 @@ containing a value of this type.
         public static final int app_name=0x7f060001;
         public static final int arroba=0x7f060002;
         public static final int input=0x7f060003;
-        public static final int quote=0x7f060004;
-        public static final int report_blank=0x7f060005;
-        public static final int report_network=0x7f060006;
-        public static final int report_user=0x7f060007;
-        public static final int search=0x7f060008;
-        public static final int title_activity_search=0x7f060009;
+        public static final int logo=0x7f060004;
+        public static final int quote=0x7f060005;
+        public static final int report_blank=0x7f060006;
+        public static final int report_network=0x7f060007;
+        public static final int report_user=0x7f060008;
+        public static final int search=0x7f060009;
+        public static final int title_activity_search=0x7f06000a;
     }
     public static final class style {
         public static final int AppTheme=0x7f070000;
         public static final int blue_action_bar=0x7f070001;
-        public static final int text_blue=0x7f070002;
-        public static final int text_blue_h1=0x7f070003;
+        public static final int text_arroba=0x7f070002;
+        public static final int text_blue=0x7f070003;
+        public static final int text_blue_h1=0x7f070004;
+        public static final int text_blue_mini=0x7f070005;
     }
     public static final class styleable {
         /** Attributes that can be used with a CircularImageView.

@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,9 +31,21 @@ public class Inbox extends Activity {
         setContentView(R.layout.activity_inbox);
 
         final EditText usernameInbox = (EditText) findViewById(R.id.username_inbox);
-        Button btnTwitter = (Button) findViewById(R.id.btnSearch);
+        final Button btnTwitter = (Button) findViewById(R.id.btnSearch);
         final TextView report = (TextView) findViewById(R.id.report);
         report.setAlpha(0);
+        btnTwitter.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                    btnTwitter.setBackgroundResource(R.drawable.heart_button_touch);
+                else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    btnTwitter.setBackgroundResource(R.drawable.heart_button_normal);
+                }
+
+                return false;
+            }
+        });
 
         btnTwitter.setOnClickListener(new View.OnClickListener() {
             @Override

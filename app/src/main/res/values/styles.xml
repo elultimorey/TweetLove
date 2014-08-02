@@ -28,4 +28,15 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
     </style>
+
+    <style name="text_blue_mini">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <style name="text_arroba">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">22sp</item>
+    </style>
 </resources>

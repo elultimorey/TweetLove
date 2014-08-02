@@ -3,4 +3,6 @@
     <color name="blue">#55acee</color>
     <color name="text_shadow">#7F000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="button_blue_border">#3b88c3</color>
+    <color name="button_blue_end">#019ad2</color>
 </resources>

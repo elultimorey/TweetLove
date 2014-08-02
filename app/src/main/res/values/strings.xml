@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Tweet Love</string>
-    <string name="quote">Love is in the air</string>
+    <string name="quote">Who do they love on Twitter?</string>
     <string name="arroba">\@</string>
     <string name="input">Username</string>
     <string name="action_settings">Settings</string>
@@ -11,5 +11,6 @@
     <string name="report_network">Sin conexión</string>
     <string name="report_blank">Introduzca un nombre de usuario</string>
     <string name="report_user">El usuario consultado no existe o tiene el perfil privado</string>
+    <string name="logo">logo</string>
 
 </resources>

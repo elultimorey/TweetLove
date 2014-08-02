@@ -47,8 +47,8 @@ public class Search extends Activity {
     private RelativeLayout lovedLayout;
     private RelativeLayout lovedLayoutWho;
     private FloatingActionMenu rightLowerMenu;
-    private String userScreenName;
-    private String lovedScreenName;
+    private User userGlobal;
+    private User lovedGlobal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +58,9 @@ public class Search extends Activity {
         //TODO: Comprobar que hay internet
         String nombre = null;
         Bundle extras = getIntent().getExtras();
-        if(extras !=null) {
-            nombre = extras.getString("user");
-            userScreenName = nombre;
-        }
+        // se comprueba en Inbox.java que se pasa un usuario
+        nombre = extras.getString("user");
+        getActionBar().setTitle("@"+nombre+" loves");
 
         lovedLayout = (RelativeLayout) findViewById(R.id.loved_layout);
         lovedLayout.setAlpha(0);
@@ -140,7 +139,7 @@ public class Search extends Activity {
             try {
                 Twitter twitter = ControladorTwitter.getInstance().getTwitter();
                 User user = twitter.showUser(users[0]);
-
+                userGlobal = user;
                 Mentioned mentioned = new Mentioned(user.getScreenName());
 
                 Paging paging = new Paging(1, 100); // Para más peticiones paging.setPage(2)...
@@ -157,6 +156,7 @@ public class Search extends Activity {
                 }
 
                 User mMentioned = twitter.showUser(mentioned.getMoreMentioned().substring(1, mentioned.getMoreMentioned().length()));
+                lovedGlobal = mMentioned;
                 image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
                 return mMentioned;
             } catch (Exception e) {
