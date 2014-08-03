@@ -188,8 +188,7 @@ public class Search extends Activity {
                     HttpURLConnection con = (HttpURLConnection) new URL(mMentioned.getURL()).openConnection();
                     con.setInstanceFollowRedirects(false);
                     con.connect();
-                    url = con.getHeaderField("Location").toString()
-                    ;
+                    url = con.getHeaderField("Location").toString();
                 }
                 return mMentioned;
             } catch (Exception e) {
