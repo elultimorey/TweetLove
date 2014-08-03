@@ -22,9 +22,7 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+import com.nvanbenschoten.motion.ParallaxImageView;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -49,10 +47,10 @@ public class Search extends Activity {
     private final Activity mActivity = this;
     private RelativeLayout lovedLayout;
     private RelativeLayout lovedLayoutWho;
-    private FloatingActionMenu rightLowerMenu;
     private User userGlobal;
     private User lovedGlobal;
     private ShareActionProvider mShareActionProvider;
+   private ParallaxImageView mBackground=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +94,7 @@ public class Search extends Activity {
                 openLovedProfile();
             }
         });
-        RelativeLayout backgroundImage = (RelativeLayout) findViewById(R.id.profileBackground);
+        ParallaxImageView backgroundImage = (ParallaxImageView) findViewById(R.id.profileBackground);
 
         MyAsyncTask mt = new MyAsyncTask(backgroundImage, profileImage, name, screenName);
         mt.execute(array);
@@ -126,9 +124,22 @@ public class Search extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mBackground!=null)
+            mBackground.unregisterSensorManager();
+    }
+
+    @Override
+    public void onPause() {
+        mBackground.unregisterSensorManager();
+        super.onPause();
+    }
+
     private class MyAsyncTask extends AsyncTask<String, Float, User> {
 
-        private final WeakReference<RelativeLayout> backgroundWeakReference;
+        private final WeakReference<ParallaxImageView> backgroundWeakReference;
         private final WeakReference<ImageView> profileImageWeakReference;
         private final WeakReference<TextView> nameWeakReference;
         private final WeakReference<TextView> screenNameWeakReference;
@@ -136,8 +147,8 @@ public class Search extends Activity {
         private Bitmap image = null;
         private Bitmap background = null;
 
-        public MyAsyncTask(RelativeLayout backgroundImage, ImageView profileImage, TextView name, TextView screenName) {
-            backgroundWeakReference = new WeakReference<RelativeLayout>(backgroundImage);
+        public MyAsyncTask(ParallaxImageView backgroundImage, ImageView profileImage, TextView name, TextView screenName) {
+            backgroundWeakReference = new WeakReference<ParallaxImageView>(backgroundImage);
             profileImageWeakReference = new WeakReference<ImageView>(profileImage);
             nameWeakReference = new WeakReference<TextView>(name);
             screenNameWeakReference = new WeakReference<TextView>(screenName);
@@ -179,9 +190,15 @@ public class Search extends Activity {
             }
             if (user != null) {
                 if (backgroundWeakReference != null) {
-                    RelativeLayout relativeLayout = backgroundWeakReference.get();
-                    if (relativeLayout != null && background != null) {
-                        relativeLayout.setBackgroundDrawable(new BitmapDrawable(getResources(), background));
+                    ParallaxImageView parallaxImageView = backgroundWeakReference.get();
+                    if (parallaxImageView != null && background != null) {
+                        mBackground = (ParallaxImageView) findViewById(R.id.profileBackground);
+                        mBackground.setImageDrawable(new BitmapDrawable(getResources(), background));
+                        // Adjust the Parallax forward tilt adjustment
+                        mBackground.setForwardTiltOffset(.35f);
+                        mBackground.setParallaxIntensity(1.1f);
+                        // Register a SensorManager to begin effect
+                        mBackground.registerSensorManager();
                     }
                 }
                 if (profileImageWeakReference != null) {

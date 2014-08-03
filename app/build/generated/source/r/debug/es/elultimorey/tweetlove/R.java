@@ -39,7 +39,31 @@ containing a value of this type.
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int circularImageViewStyle=0x7f010004;
+        public static final int circularImageViewStyle=0x7f010008;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int forwardTiltOffset=0x7f010006;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int intensity=0x7f010004;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scaledIntensity=0x7f010007;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -48,6 +72,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int shadow=0x7f010003;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int tiltSensitivity=0x7f010005;
     }
     public static final class color {
         public static final int blue=0x7f040000;
@@ -57,41 +89,23 @@ containing a value of this type.
         public static final int white=0x7f040004;
     }
     public static final class dimen {
-        public static final int action_button_content_margin=0x7f050000;
-        public static final int action_button_margin=0x7f050001;
-        public static final int action_button_size=0x7f050002;
-        public static final int action_menu_radius=0x7f050003;
-        public static final int activity_horizontal_margin=0x7f050004;
-        public static final int activity_vertical_margin=0x7f050005;
-        public static final int radius=0x7f050006;
-        public static final int sub_action_button_content_margin=0x7f050007;
-        public static final int sub_action_button_size=0x7f050008;
+        public static final int activity_horizontal_margin=0x7f050000;
+        public static final int activity_vertical_margin=0x7f050001;
+        public static final int radius=0x7f050002;
     }
     public static final class drawable {
         public static final int blue=0x7f020000;
         public static final int blue_pattern=0x7f020001;
-        public static final int button_action=0x7f020002;
-        public static final int button_action_dark=0x7f020003;
-        public static final int button_action_dark_selector=0x7f020004;
-        public static final int button_action_dark_touch=0x7f020005;
-        public static final int button_action_selector=0x7f020006;
-        public static final int button_action_touch=0x7f020007;
-        public static final int button_action_twitter=0x7f020008;
-        public static final int button_action_twitter_touch=0x7f020009;
-        public static final int button_sub_action=0x7f02000a;
-        public static final int button_sub_action_dark=0x7f02000b;
-        public static final int button_sub_action_dark_selector=0x7f02000c;
-        public static final int button_sub_action_dark_touch=0x7f02000d;
-        public static final int button_sub_action_selector=0x7f02000e;
-        public static final int button_sub_action_touch=0x7f02000f;
-        public static final int heart_button=0x7f020010;
-        public static final int heart_button_normal=0x7f020011;
-        public static final int heart_button_touch=0x7f020012;
-        public static final int ic_action_share=0x7f020013;
-        public static final int ic_action_twitter=0x7f020014;
-        public static final int ic_actionbar=0x7f020015;
-        public static final int ic_launcher=0x7f020016;
-        public static final int logo=0x7f020017;
+        public static final int button_action_twitter=0x7f020002;
+        public static final int button_action_twitter_touch=0x7f020003;
+        public static final int heart_button=0x7f020004;
+        public static final int heart_button_normal=0x7f020005;
+        public static final int heart_button_touch=0x7f020006;
+        public static final int ic_action_share=0x7f020007;
+        public static final int ic_action_twitter=0x7f020008;
+        public static final int ic_actionbar=0x7f020009;
+        public static final int ic_launcher=0x7f02000a;
+        public static final int logo=0x7f02000b;
     }
     public static final class id {
         public static final int arroba_tv=0x7f090004;
@@ -221,6 +235,81 @@ containing a value of this type.
           @attr name es.elultimorey.tweetlove:shadow
         */
         public static final int CircularImageView_shadow = 3;
+        /** Attributes that can be used with a ParallaxImageView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #ParallaxImageView_forwardTiltOffset es.elultimorey.tweetlove:forwardTiltOffset}</code></td><td></td></tr>
+           <tr><td><code>{@link #ParallaxImageView_intensity es.elultimorey.tweetlove:intensity}</code></td><td></td></tr>
+           <tr><td><code>{@link #ParallaxImageView_scaledIntensity es.elultimorey.tweetlove:scaledIntensity}</code></td><td></td></tr>
+           <tr><td><code>{@link #ParallaxImageView_tiltSensitivity es.elultimorey.tweetlove:tiltSensitivity}</code></td><td></td></tr>
+           </table>
+           @see #ParallaxImageView_forwardTiltOffset
+           @see #ParallaxImageView_intensity
+           @see #ParallaxImageView_scaledIntensity
+           @see #ParallaxImageView_tiltSensitivity
+         */
+        public static final int[] ParallaxImageView = {
+            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007
+        };
+        /**
+          <p>This symbol is the offset where the {@link es.elultimorey.tweetlove.R.attr#forwardTiltOffset}
+          attribute's value can be found in the {@link #ParallaxImageView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name es.elultimorey.tweetlove:forwardTiltOffset
+        */
+        public static final int ParallaxImageView_forwardTiltOffset = 2;
+        /**
+          <p>This symbol is the offset where the {@link es.elultimorey.tweetlove.R.attr#intensity}
+          attribute's value can be found in the {@link #ParallaxImageView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name es.elultimorey.tweetlove:intensity
+        */
+        public static final int ParallaxImageView_intensity = 0;
+        /**
+          <p>This symbol is the offset where the {@link es.elultimorey.tweetlove.R.attr#scaledIntensity}
+          attribute's value can be found in the {@link #ParallaxImageView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name es.elultimorey.tweetlove:scaledIntensity
+        */
+        public static final int ParallaxImageView_scaledIntensity = 3;
+        /**
+          <p>This symbol is the offset where the {@link es.elultimorey.tweetlove.R.attr#tiltSensitivity}
+          attribute's value can be found in the {@link #ParallaxImageView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name es.elultimorey.tweetlove:tiltSensitivity
+        */
+        public static final int ParallaxImageView_tiltSensitivity = 1;
         /** Attributes that can be used with a Theme.
            <p>Includes the following attributes:</p>
            <table>
@@ -232,7 +321,7 @@ containing a value of this type.
            @see #Theme_circularImageViewStyle
          */
         public static final int[] Theme = {
-            0x7f010004
+            0x7f010008
         };
         /**
           <p>This symbol is the offset where the {@link es.elultimorey.tweetlove.R.attr#circularImageViewStyle}
