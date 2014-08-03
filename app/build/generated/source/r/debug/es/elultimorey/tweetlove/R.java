@@ -110,11 +110,13 @@ containing a value of this type.
     public static final class id {
         public static final int arroba_tv=0x7f090004;
         public static final int btnSearch=0x7f090006;
+        public static final int description=0x7f090011;
         public static final int line=0x7f09000c;
+        public static final int location=0x7f090012;
         public static final int logo=0x7f090001;
         public static final int loved_layout=0x7f09000a;
         public static final int loved_layout_who=0x7f090008;
-        public static final int menu_item_share=0x7f090011;
+        public static final int menu_item_share=0x7f090014;
         public static final int mid_inbox_layout=0x7f090003;
         public static final int name=0x7f09000f;
         public static final int names_layout=0x7f09000e;
@@ -125,6 +127,7 @@ containing a value of this type.
         public static final int report=0x7f090007;
         public static final int screenName=0x7f090010;
         public static final int topmid_inbox_layout=0x7f090000;
+        public static final int url=0x7f090013;
         public static final int username_inbox=0x7f090005;
     }
     public static final class layout {
@@ -155,6 +158,8 @@ containing a value of this type.
         public static final int text_blue=0x7f070003;
         public static final int text_blue_h1=0x7f070004;
         public static final int text_blue_mini=0x7f070005;
+        public static final int text_blue_normal=0x7f070006;
+        public static final int text_blue_normal_bold=0x7f070007;
     }
     public static final class styleable {
         /** Attributes that can be used with a CircularImageView.

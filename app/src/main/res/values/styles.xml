@@ -35,6 +35,16 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="text_blue_normal">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="text_blue_normal_bold">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="text_arroba">
         <item name="android:textColor">@color/blue</item>

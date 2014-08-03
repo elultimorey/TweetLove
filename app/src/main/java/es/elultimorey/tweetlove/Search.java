@@ -95,8 +95,10 @@ public class Search extends Activity {
             }
         });
         ParallaxImageView backgroundImage = (ParallaxImageView) findViewById(R.id.profileBackground);
-
-        MyAsyncTask mt = new MyAsyncTask(backgroundImage, profileImage, name, screenName);
+        TextView description = (TextView) findViewById(R.id.description);
+        TextView location = (TextView) findViewById(R.id.location);
+        TextView url = (TextView) findViewById(R.id.url);
+        MyAsyncTask mt = new MyAsyncTask(backgroundImage, profileImage, name, screenName, description, location, url);
         mt.execute(array);
 
     }
@@ -143,15 +145,22 @@ public class Search extends Activity {
         private final WeakReference<ImageView> profileImageWeakReference;
         private final WeakReference<TextView> nameWeakReference;
         private final WeakReference<TextView> screenNameWeakReference;
+        private final WeakReference<TextView> desciptionWeakReference;
+        private final WeakReference<TextView> locationWeakReference;
+        private final WeakReference<TextView> urlWeakReference;
 
         private Bitmap image = null;
         private Bitmap background = null;
 
-        public MyAsyncTask(ParallaxImageView backgroundImage, ImageView profileImage, TextView name, TextView screenName) {
+        public MyAsyncTask(ParallaxImageView backgroundImage, ImageView profileImage, TextView name, TextView screenName,
+                           TextView descritpion, TextView location, TextView url) {
             backgroundWeakReference = new WeakReference<ParallaxImageView>(backgroundImage);
             profileImageWeakReference = new WeakReference<ImageView>(profileImage);
             nameWeakReference = new WeakReference<TextView>(name);
             screenNameWeakReference = new WeakReference<TextView>(screenName);
+            desciptionWeakReference = new WeakReference<TextView>(descritpion);
+            locationWeakReference = new WeakReference<TextView>(location);
+            urlWeakReference = new WeakReference<TextView>(url);
         }
 
         protected User doInBackground(String... users) {
@@ -196,7 +205,7 @@ public class Search extends Activity {
                         mBackground.setImageDrawable(new BitmapDrawable(getResources(), background));
                         // Adjust the Parallax forward tilt adjustment
                         mBackground.setForwardTiltOffset(.35f);
-                        mBackground.setParallaxIntensity(1.1f);
+                        mBackground.setParallaxIntensity(1.2f);
                         // Register a SensorManager to begin effect
                         mBackground.registerSensorManager();
                     }
@@ -217,6 +226,31 @@ public class Search extends Activity {
                     TextView textView = screenNameWeakReference.get();
                     if (textView != null) {
                         textView.setText("@" + user.getScreenName());
+                    }
+                }
+                if (desciptionWeakReference != null) {
+                    TextView textView = desciptionWeakReference.get();
+                    if (textView != null && !user.getDescription().isEmpty())
+                        textView.setText(user.getDescription());
+                }
+                if (locationWeakReference != null) {
+                    TextView textView = locationWeakReference.get();
+                    if (textView != null && !user.getLocation().isEmpty())
+                        textView.setText(user.getLocation());
+                }
+                if (urlWeakReference != null) {
+                    TextView textView = urlWeakReference.get();
+                    if (textView != null && !user.getURL().isEmpty()) {
+                        textView.setText(user.getURL());
+                        textView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String url = lovedGlobal.getURL();
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setData(Uri.parse(url));
+                                startActivity(i);
+                            }
+                        });
                     }
                 }
                 lovedLayoutWho.setAlpha(0);

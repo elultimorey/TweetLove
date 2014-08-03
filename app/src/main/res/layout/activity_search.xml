@@ -69,5 +69,36 @@
         </RelativeLayout>
 
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loved_layout"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/description"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            style="@style/text_blue_normal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/location"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/description"
+            android:layout_marginTop="5dp"
+            style="@style/text_blue_normal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/url"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/location"
+            android:layout_marginTop="5dp"
+            style="@style/text_blue_normal_bold"/>
+    </RelativeLayout>
 
 </RelativeLayout>
