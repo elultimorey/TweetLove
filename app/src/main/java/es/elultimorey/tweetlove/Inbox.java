@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,18 +36,6 @@ public class Inbox extends Activity {
         final Button btnTwitter = (Button) findViewById(R.id.btnSearch);
         final TextView report = (TextView) findViewById(R.id.report);
         report.setAlpha(0);
-        btnTwitter.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN)
-                    btnTwitter.setBackgroundResource(R.drawable.heart_button_touch);
-                else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    btnTwitter.setBackgroundResource(R.drawable.heart_button_normal);
-                }
-
-                return false;
-            }
-        });
 
         btnTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,18 +72,22 @@ public class Inbox extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.inbox, menu);
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        ShareActionProvider myShareActionProvider = (ShareActionProvider) item.getActionProvider();
+
+        Intent myIntent = new Intent();
+        myIntent.setAction(Intent.ACTION_SEND);
+        myIntent.putExtra(Intent.EXTRA_TEXT, "@elultimorey huehuhuehue @elultimorey");
+        myIntent.setType("text/plain");
+
+        myShareActionProvider.setShareIntent(myIntent);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
     protected void onActivityResult(int requestCode, int resultCode,

@@ -72,7 +72,7 @@
             android:text="@string/search"
             android:id="@+id/btnSearch"
             android:textColor="@color/white"
-            android:background="@drawable/heart_button_normal"
+            android:background="@drawable/heart_button"
             android:layout_toEndOf="@+id/username_inbox"
             android:gravity="center_vertical|center_horizontal"
             android:layout_alignTop="@+id/arroba_tv"

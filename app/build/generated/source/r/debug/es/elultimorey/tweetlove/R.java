@@ -84,22 +84,23 @@ containing a value of this type.
         public static final int button_sub_action_dark_touch=0x7f02000d;
         public static final int button_sub_action_selector=0x7f02000e;
         public static final int button_sub_action_touch=0x7f02000f;
-        public static final int heart_button_normal=0x7f020010;
-        public static final int heart_button_touch=0x7f020011;
-        public static final int ic_action_share=0x7f020012;
-        public static final int ic_action_twitter=0x7f020013;
-        public static final int ic_actionbar=0x7f020014;
-        public static final int ic_launcher=0x7f020015;
-        public static final int logo=0x7f020016;
+        public static final int heart_button=0x7f020010;
+        public static final int heart_button_normal=0x7f020011;
+        public static final int heart_button_touch=0x7f020012;
+        public static final int ic_action_share=0x7f020013;
+        public static final int ic_action_twitter=0x7f020014;
+        public static final int ic_actionbar=0x7f020015;
+        public static final int ic_launcher=0x7f020016;
+        public static final int logo=0x7f020017;
     }
     public static final class id {
-        public static final int action_settings=0x7f090011;
         public static final int arroba_tv=0x7f090004;
         public static final int btnSearch=0x7f090006;
         public static final int line=0x7f09000c;
         public static final int logo=0x7f090001;
         public static final int loved_layout=0x7f09000a;
         public static final int loved_layout_who=0x7f090008;
+        public static final int menu_item_share=0x7f090011;
         public static final int mid_inbox_layout=0x7f090003;
         public static final int name=0x7f09000f;
         public static final int names_layout=0x7f09000e;
@@ -121,7 +122,7 @@ containing a value of this type.
         public static final int search=0x7f080001;
     }
     public static final class string {
-        public static final int action_settings=0x7f060000;
+        public static final int action_rename=0x7f060000;
         public static final int app_name=0x7f060001;
         public static final int arroba=0x7f060002;
         public static final int input=0x7f060003;

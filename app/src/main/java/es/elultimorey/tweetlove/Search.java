@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class Search extends Activity {
     private FloatingActionMenu rightLowerMenu;
     private User userGlobal;
     private User lovedGlobal;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,18 +107,22 @@ public class Search extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.search, menu);
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        ShareActionProvider myShareActionProvider = (ShareActionProvider) item.getActionProvider();
+
+        Intent myIntent = new Intent();
+        myIntent.setAction(Intent.ACTION_SEND);
+        myIntent.putExtra(Intent.EXTRA_TEXT, "@elultimorey huehuhuehue @elultimorey");
+        myIntent.setType("text/plain");
+
+        myShareActionProvider.setShareIntent(myIntent);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -201,60 +207,6 @@ public class Search extends Activity {
                 YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
                 YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
                 YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
-
-                // FloatingActionButton: https://github.com/oguzbilgener/CircularFloatingActionMenu
-                int shareActionButtonSize = getResources().getDimensionPixelSize(R.dimen.radius);
-                int shareActionButtonMargin = getResources().getDimensionPixelOffset(R.dimen.action_button_margin);
-
-                ImageView fabIcon = new ImageView(mActivity);
-                fabIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_share));
-
-                FloatingActionButton.LayoutParams layoutParams = new FloatingActionButton.LayoutParams(shareActionButtonSize, shareActionButtonSize);
-                layoutParams.setMargins(shareActionButtonMargin,
-                        shareActionButtonMargin,
-                        shareActionButtonMargin,
-                        shareActionButtonMargin);
-
-                FloatingActionButton rightLowerButton = new FloatingActionButton.Builder(mActivity)
-                        .setContentView(fabIcon)
-                        .setBackgroundDrawable(R.drawable.button_action_selector)
-                        .setLayoutParams(layoutParams)
-                        .build();
-
-                SubActionButton.Builder lCSubBuilder = new SubActionButton.Builder(mActivity);
-                lCSubBuilder.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_action_selector));
-                ImageView rlIconTwitter = new ImageView(mActivity);
-                ImageView rlIconShare = new ImageView(mActivity);
-
-                rlIconTwitter.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_twitter));
-                rlIconShare.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_share));
-
-                rightLowerMenu = new FloatingActionMenu.Builder(mActivity)
-                        .addSubActionView(lCSubBuilder.setContentView(rlIconTwitter).build())
-                        .addSubActionView(lCSubBuilder.setContentView(rlIconShare).build())
-                        .attachTo(rightLowerButton)
-                        .build();
-                // TODO RECONSIDERAR
-                rlIconTwitter.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Create intent using ACTION_VIEW and a normal Twitter url:
-                        String tweetUrl =
-                                String.format("https://twitter.com/intent/tweet?text=%s&url=%s",
-                                        urlEncode("I just discovered that"), urlEncode("URL"));
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl));
-
-                        // Narrow down to official Twitter app, if available:
-                        List<ResolveInfo> matches = getPackageManager().queryIntentActivities(intent, 0);
-                        for (ResolveInfo info : matches) {
-                            if (info.activityInfo.packageName.toLowerCase().startsWith("com.twitter")) {
-                                intent.setPackage(info.activityInfo.packageName);
-                            }
-                        }
-
-                        startActivity(intent);
-                    }
-                });
             }
             else {
                 setResult(Inbox.USER_NOT_EXIST);
@@ -304,5 +256,10 @@ public class Search extends Activity {
             // If Twitter app is not installed, start browser.
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/"+lovedGlobal.getScreenName())));
         }
+    }
+    private Intent getDefaultIntent() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        return intent;
     }
 }

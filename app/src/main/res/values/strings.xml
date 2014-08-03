@@ -5,7 +5,7 @@
     <string name="quote">Who do they love on Twitter?</string>
     <string name="arroba">\@</string>
     <string name="input">Username</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_rename">Share</string>
     <string name="search">\u2764</string>
     <string name="title_activity_search">Tweet Love</string>
     <string name="report_network">Sin conexión</string>
