@@ -44,13 +44,11 @@ public class Search extends Activity {
 
     //TODO: Solo busca el nombre del usuario que se le pasa
 
-    private final Activity mActivity = this;
     private RelativeLayout lovedLayout;
     private RelativeLayout lovedLayoutWho;
-    private User userGlobal;
     private User lovedGlobal;
-    private ShareActionProvider mShareActionProvider;
-   private ParallaxImageView mBackground=null;
+    private String url;
+    private ParallaxImageView mBackground=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public class Search extends Activity {
         setContentView(R.layout.activity_search);
 
         //TODO: Comprobar que hay internet
-        String nombre = null;
+        String nombre;
         Bundle extras = getIntent().getExtras();
         // se comprueba en Inbox.java que se pasa un usuario
         nombre = extras.getString("user");
@@ -167,7 +165,6 @@ public class Search extends Activity {
             try {
                 Twitter twitter = ControladorTwitter.getInstance().getTwitter();
                 User user = twitter.showUser(users[0]);
-                userGlobal = user;
                 Mentioned mentioned = new Mentioned(user.getScreenName());
 
                 Paging paging = new Paging(1, 100); // Para más peticiones paging.setPage(2)...
@@ -187,6 +184,13 @@ public class Search extends Activity {
                 lovedGlobal = mMentioned;
                 image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
                 background = downloadBitmap(mMentioned.getProfileBackgroundImageURL());
+                if (!user.getURL().isEmpty()) {
+                    HttpURLConnection con = (HttpURLConnection) new URL(mMentioned.getURL()).openConnection();
+                    con.setInstanceFollowRedirects(false);
+                    con.connect();
+                    url = con.getHeaderField("Location").toString()
+                    ;
+                }
                 return mMentioned;
             } catch (Exception e) {
                 return null;
@@ -240,12 +244,11 @@ public class Search extends Activity {
                 }
                 if (urlWeakReference != null) {
                     TextView textView = urlWeakReference.get();
-                    if (textView != null && !user.getURL().isEmpty()) {
-                        textView.setText(user.getURL());
+                    if (textView != null && url!=null) {
+                        textView.setText(url);
                         textView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String url = lovedGlobal.getURL();
                                 Intent i = new Intent(Intent.ACTION_VIEW);
                                 i.setData(Uri.parse(url));
                                 startActivity(i);
