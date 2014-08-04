@@ -100,7 +100,8 @@ public class Inbox extends Activity {
 
         Intent myIntent = new Intent();
         myIntent.setAction(Intent.ACTION_SEND);
-        myIntent.putExtra(Intent.EXTRA_TEXT, "@elultimorey huehuhuehue @elultimorey");
+        String shareText = getResources().getText(R.string.share)+" "+getResources().getText(R.string.app_url);
+        myIntent.putExtra(Intent.EXTRA_TEXT, shareText);
         myIntent.setType("text/plain");
 
         myShareActionProvider.setShareIntent(myIntent);

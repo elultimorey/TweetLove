@@ -66,7 +66,7 @@ public class Search extends Activity {
         Bundle extras = getIntent().getExtras();
         // se comprueba en Inbox.java que se pasa un usuario
         nombre = extras.getString("user");
-        getActionBar().setTitle("@"+nombre+" loves");
+        getActionBar().setTitle("@"+nombre+" "+getResources().getText(R.string.search_loves));
 
         lovedLayout = (RelativeLayout) findViewById(R.id.loved_layout);
         lovedLayout.setAlpha(0);

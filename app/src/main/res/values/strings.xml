@@ -7,11 +7,13 @@
     <string name="input">Username</string>
     <string name="action_rename">Share</string>
     <string name="search">\u2764</string>
-    <string name="title_activity_search">Tweet Love</string>
-    <string name="report_network">Sin conexión</string>
-    <string name="report_blank">Introduzca un nombre de usuario</string>
-    <string name="report_user">El usuario consultado no existe o tiene el perfil privado</string>
-    <string name="report_mentions">El usuario consultado no ha realizado menciones recientemente</string>
+    <string name="report_network">Disconnected</string>
+    <string name="report_blank">Please enter a username</string>
+    <string name="report_user">The requested user does not exist or has the private profile</string>
+    <string name="report_mentions">The requested user has not recently mentions</string>
     <string name="logo">logo</string>
+    <string name="share">Check to whom you love on Twitter using </string>
+    <string name="app_url">#TweetLove URL</string>
+    <string name="search_loves">loves</string>
 
 </resources>

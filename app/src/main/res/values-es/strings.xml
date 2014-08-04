@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tweet Love</string>
+    <string name="quote">¿A quién ama en twitter?</string>
+    <string name="arroba">\@</string>
+    <string name="input">Nombre de Usuario</string>
+    <string name="action_rename">Compartir</string>
+    <string name="search">\u2764</string>
+    <string name="report_network">Sin conexión</string>
+    <string name="report_blank">Introduzca un nombre de usuario</string>
+    <string name="report_user">El usuario consultado no existe o tiene el perfil privado</string>
+    <string name="report_mentions">El usuario consultado no ha realizado menciones recientemente</string>
+    <string name="share">Descubre a quién amas en Twitter usando </string>
+    <string name="logo">logo</string>
+    <string name="search_loves">ama a</string>
+
+</resources>
