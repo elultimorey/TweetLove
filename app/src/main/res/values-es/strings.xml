@@ -12,6 +12,7 @@
     <string name="report_user">El usuario consultado no existe o tiene el perfil privado</string>
     <string name="report_mentions">El usuario consultado no ha realizado menciones recientemente</string>
     <string name="share">Descubre a quién amas en Twitter usando </string>
+    <string name="app_url">#TweetLove URL</string>
     <string name="logo">logo</string>
     <string name="search_loves">ama a</string>
 
