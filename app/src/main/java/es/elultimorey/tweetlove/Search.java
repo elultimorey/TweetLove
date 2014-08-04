@@ -22,6 +22,9 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.nvanbenschoten.motion.ParallaxImageView;
 
 import java.io.IOException;
@@ -51,12 +54,14 @@ public class Search extends Activity {
     private ParallaxImageView mBackground=null;
     private boolean haventMentions = false;
 
+    private AdView adView;
+    private final static String MY_AD_UNIT_ID = " ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        //TODO: Comprobar que hay internet
         String nombre;
         Bundle extras = getIntent().getExtras();
         // se comprueba en Inbox.java que se pasa un usuario
@@ -99,6 +104,19 @@ public class Search extends Activity {
         TextView url = (TextView) findViewById(R.id.url);
         MyAsyncTask mt = new MyAsyncTask(backgroundImage, profileImage, name, screenName, description, location, url);
         mt.execute(array);
+        adView = new AdView(this);
+        adView.setAdUnitId(MY_AD_UNIT_ID);
+        adView.setAdSize(AdSize.BANNER);
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.adLayout);
+        layout.addView(adView);
+
+        // Cargar adView con la solicitud de anuncio.
+        AdRequest request = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // Todos los emuladores
+                .addTestDevice("05b354af0a28a6d5")  // Mi teléfono de prueba Galaxy Nexus
+                .build();
+        adView.loadAd(request);
 
     }
 
@@ -183,11 +201,13 @@ public class Search extends Activity {
                 if (!mentioned.isEmpty()) {
                     User mMentioned = twitter.showUser(mentioned.getMoreMentioned().substring(1, mentioned.getMoreMentioned().length()));
                     lovedGlobal = mMentioned;
+                    Log.d("###", "START");
                     image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
                     // The banner comes always cutted
                     background = downloadBitmap(mMentioned.getProfileBannerURL().substring(0, mMentioned.getProfileBannerURL().length()-3)+ "1500x500");
-                    if (!mMentioned.getURL().isEmpty()) {
+                    if (mMentioned.getURL()!=null) {
                         HttpURLConnection con = (HttpURLConnection) new URL(mMentioned.getURL()).openConnection();
+                        Log.d("###", mMentioned.getScreenName());
                         con.setInstanceFollowRedirects(false);
                         con.connect();
                         url = con.getHeaderField("Location").toString();
@@ -240,12 +260,12 @@ public class Search extends Activity {
                 }
                 if (desciptionWeakReference != null) {
                     TextView textView = desciptionWeakReference.get();
-                    if (textView != null && !user.getDescription().isEmpty())
+                    if (textView != null && user.getDescription()!=null)
                         textView.setText(user.getDescription());
                 }
                 if (locationWeakReference != null) {
                     TextView textView = locationWeakReference.get();
-                    if (textView != null && !user.getLocation().isEmpty())
+                    if (textView != null && user.getLocation()!=null)
                         textView.setText(user.getLocation());
                 }
                 if (urlWeakReference != null) {

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 
 public class Inbox extends Activity {
@@ -26,6 +30,9 @@ public class Inbox extends Activity {
     public final static int SHOW_LOVED = 42;
     public final static int USER_NOT_EXIST = 21;
     public final static int USER_HAVENT_MENTIONS = 22;
+
+    private AdView adView;
+    private final static String MY_AD_UNIT_ID = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +52,7 @@ public class Inbox extends Activity {
                     report.setText(getResources().getString(R.string.report_blank));
                     report.setAlpha(100);
                     YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.username_inbox));
-                }
-                else {
+                } else {
                     ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                     final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
                     if (activeNetwork != null && activeNetwork.isConnected()) {// online && have an username
@@ -60,13 +66,29 @@ public class Inbox extends Activity {
                         YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.report));
                     }
                 }
-                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 inputMethodManager.hideSoftInputFromWindow(usernameInbox.getWindowToken(), 0);
             }
         });
-    }
+        adView = new AdView(this);
+        adView.setAdUnitId(MY_AD_UNIT_ID);
+        adView.setAdSize(AdSize.BANNER);
 
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.adLayout_inbox);
+        layout.addView(adView);
+
+        // Cargar adView con la solicitud de anuncio.
+        AdRequest request = new AdRequest.Builder().build();
+        adView.loadAd(request);
+        usernameInbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(adView.getVisibility() == View.VISIBLE)
+                    adView.setVisibility(View.GONE);
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
