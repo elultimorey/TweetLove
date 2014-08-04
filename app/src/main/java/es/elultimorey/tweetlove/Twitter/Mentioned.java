@@ -32,14 +32,20 @@ public class Mentioned {
 
     public String getMoreMentioned() {
         String screenName = "";
-        Integer max = 0;
-        Iterator it = this.mentioned.entrySet().iterator();
-        for (Map.Entry e: this.mentioned.entrySet()) {
-            if (((Integer) e.getValue() > max) && !(((String)e.getKey()).equals(" @"+userScreenName))) {
-                screenName = (String) e.getKey();
-                max = (Integer) e.getValue();
+        if (!this.mentioned.isEmpty()) {
+            Integer max = 0;
+            Iterator it = this.mentioned.entrySet().iterator();
+            for (Map.Entry e : this.mentioned.entrySet()) {
+                if (((Integer) e.getValue() > max) && !(((String) e.getKey()).equals(" @" + userScreenName))) {
+                    screenName = (String) e.getKey();
+                    max = (Integer) e.getValue();
+                }
             }
         }
         return screenName;
+    }
+
+    public boolean isEmpty() {
+        return this.mentioned.isEmpty();
     }
 }

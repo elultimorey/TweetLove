@@ -11,6 +11,7 @@
     <string name="report_network">Sin conexión</string>
     <string name="report_blank">Introduzca un nombre de usuario</string>
     <string name="report_user">El usuario consultado no existe o tiene el perfil privado</string>
+    <string name="report_mentions">El usuario consultado no ha realizado menciones recientemente</string>
     <string name="logo">logo</string>
 
 </resources>

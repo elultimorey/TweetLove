@@ -49,6 +49,7 @@ public class Search extends Activity {
     private User lovedGlobal;
     private String url;
     private ParallaxImageView mBackground=null;
+    private boolean haventMentions = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +134,8 @@ public class Search extends Activity {
 
     @Override
     public void onPause() {
-        mBackground.unregisterSensorManager();
+        if (mBackground!=null)
+            mBackground.unregisterSensorManager();
         super.onPause();
     }
 
@@ -166,7 +168,6 @@ public class Search extends Activity {
                 Twitter twitter = ControladorTwitter.getInstance().getTwitter();
                 User user = twitter.showUser(users[0]);
                 Mentioned mentioned = new Mentioned(user.getScreenName());
-
                 Paging paging = new Paging(1, 100); // Para más peticiones paging.setPage(2)...
                 List<twitter4j.Status> tweets = null;
                 tweets = twitter.getUserTimeline(user.getScreenName(), paging);
@@ -179,18 +180,24 @@ public class Search extends Activity {
                         mentioned.addMentioned(mentionedList);
                     }
                 }
-
-                User mMentioned = twitter.showUser(mentioned.getMoreMentioned().substring(1, mentioned.getMoreMentioned().length()));
-                lovedGlobal = mMentioned;
-                image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
-                background = downloadBitmap(mMentioned.getProfileBackgroundImageURL());
-                if (!user.getURL().isEmpty()) {
-                    HttpURLConnection con = (HttpURLConnection) new URL(mMentioned.getURL()).openConnection();
-                    con.setInstanceFollowRedirects(false);
-                    con.connect();
-                    url = con.getHeaderField("Location").toString();
+                if (!mentioned.isEmpty()) {
+                    User mMentioned = twitter.showUser(mentioned.getMoreMentioned().substring(1, mentioned.getMoreMentioned().length()));
+                    lovedGlobal = mMentioned;
+                    image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
+                    // The banner comes always cutted
+                    background = downloadBitmap(mMentioned.getProfileBannerURL().substring(0, mMentioned.getProfileBannerURL().length()-3)+ "1500x500");
+                    if (!mMentioned.getURL().isEmpty()) {
+                        HttpURLConnection con = (HttpURLConnection) new URL(mMentioned.getURL()).openConnection();
+                        con.setInstanceFollowRedirects(false);
+                        con.connect();
+                        url = con.getHeaderField("Location").toString();
+                    }
+                    return mMentioned;
                 }
-                return mMentioned;
+                else {
+                    haventMentions = true;
+                    return null;
+                }
             } catch (Exception e) {
                 return null;
             }
@@ -262,7 +269,10 @@ public class Search extends Activity {
                 YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
             }
             else {
-                setResult(Inbox.USER_NOT_EXIST);
+                if (haventMentions)
+                    setResult(Inbox.USER_HAVENT_MENTIONS);
+                else
+                    setResult(Inbox.USER_NOT_EXIST);
                 finish();
             }
 
@@ -282,16 +292,6 @@ public class Search extends Activity {
         }
 
 
-    }
-
-    public String urlEncode(String s) {
-        try {
-            return URLEncoder.encode(s, "UTF-8");
-        }
-        catch (UnsupportedEncodingException e) {
-            Log.wtf("urlEnconde", "UTF-8 should always be supported", e);
-            throw new RuntimeException("URLEncoder.encode() failed for " + s);
-        }
     }
 
     public void openLovedProfile() {

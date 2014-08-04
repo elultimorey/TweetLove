@@ -146,10 +146,11 @@ containing a value of this type.
         public static final int logo=0x7f060004;
         public static final int quote=0x7f060005;
         public static final int report_blank=0x7f060006;
-        public static final int report_network=0x7f060007;
-        public static final int report_user=0x7f060008;
-        public static final int search=0x7f060009;
-        public static final int title_activity_search=0x7f06000a;
+        public static final int report_mentions=0x7f060007;
+        public static final int report_network=0x7f060008;
+        public static final int report_user=0x7f060009;
+        public static final int search=0x7f06000a;
+        public static final int title_activity_search=0x7f06000b;
     }
     public static final class style {
         public static final int AppTheme=0x7f070000;

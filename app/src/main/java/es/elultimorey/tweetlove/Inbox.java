@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class Inbox extends Activity {
     private final Activity mActivity = this;
     public final static int SHOW_LOVED = 42;
     public final static int USER_NOT_EXIST = 21;
+    public final static int USER_HAVENT_MENTIONS = 22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +93,20 @@ public class Inbox extends Activity {
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         if (requestCode == SHOW_LOVED) {
-            if (resultCode == USER_NOT_EXIST) {
-                // user dont exist or private
-                TextView report = (TextView) findViewById(R.id.report);
-                report.setText(getResources().getString(R.string.report_user));
-                report.setAlpha(100);
-                YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.report));
+
+            TextView report = (TextView) findViewById(R.id.report);
+            switch (resultCode) {
+                case USER_HAVENT_MENTIONS:
+                    // user havent recent metions
+                    report.setText(getResources().getString(R.string.report_mentions));
+                    break;
+                case USER_NOT_EXIST:
+                    // user dont exist or private
+                    report.setText(getResources().getString(R.string.report_user));
+                    break;
             }
+            report.setAlpha(100);
+            YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.report));
         }
     }
 }
