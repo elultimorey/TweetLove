@@ -109,24 +109,16 @@
                         android:layout_centerHorizontal="true"
                         android:layout_below="@+id/location"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
                         style="@style/text_blue_normal_bold"/>
                 </RelativeLayout>
             </RelativeLayout>
         </ScrollView>
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true">
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/adLayout"/>
-        </RelativeLayout>
+                android:id="@+id/adLayout_search"
+                android:gravity="center_horizontal"/>
     </LinearLayout>
 </RelativeLayout>

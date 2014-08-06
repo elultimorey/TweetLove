@@ -12,8 +12,8 @@
     <string name="report_user">The requested user does not exist or has the private profile</string>
     <string name="report_mentions">The requested user has not recently mentions</string>
     <string name="logo">logo</string>
-    <string name="share">Check to whom you love on Twitter using </string>
-    <string name="app_url">#TweetLove URL</string>
+    <string name="inbox_share">Check to whom you love on Twitter using </string>
+    <string name="app_url">#TweetLove https://play.google.com/store/apps/details?id=es.elultimorey.tweetlove</string>
     <string name="search_loves">loves</string>
 
 </resources>

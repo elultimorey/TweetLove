@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,7 +99,7 @@ public class Inbox extends Activity {
 
         Intent myIntent = new Intent();
         myIntent.setAction(Intent.ACTION_SEND);
-        String shareText = getResources().getText(R.string.share)+" "+getResources().getText(R.string.app_url);
+        String shareText = getResources().getText(R.string.inbox_share)+" "+getResources().getText(R.string.app_url);
         myIntent.putExtra(Intent.EXTRA_TEXT, shareText);
         myIntent.setType("text/plain");
 

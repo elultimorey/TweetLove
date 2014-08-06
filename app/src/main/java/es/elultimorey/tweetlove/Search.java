@@ -3,14 +3,12 @@ package es.elultimorey.tweetlove;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,11 +26,9 @@ import com.google.android.gms.ads.AdView;
 import com.nvanbenschoten.motion.ParallaxImageView;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.List;
 
 import es.elultimorey.tweetlove.Twitter.ControladorTwitter;
@@ -49,10 +45,12 @@ public class Search extends Activity {
 
     private RelativeLayout lovedLayout;
     private RelativeLayout lovedLayoutWho;
+    private String userScreenName;
     private User lovedGlobal;
     private String url;
     private ParallaxImageView mBackground=null;
     private boolean haventMentions = false;
+    private ShareActionProvider mShareActionProvider;
 
     private AdView adView;
     private final static String MY_AD_UNIT_ID = " ";
@@ -66,6 +64,7 @@ public class Search extends Activity {
         Bundle extras = getIntent().getExtras();
         // se comprueba en Inbox.java que se pasa un usuario
         nombre = extras.getString("user");
+        userScreenName = nombre;
         getActionBar().setTitle("@"+nombre+" "+getResources().getText(R.string.search_loves));
 
         lovedLayout = (RelativeLayout) findViewById(R.id.loved_layout);
@@ -108,14 +107,11 @@ public class Search extends Activity {
         adView.setAdUnitId(MY_AD_UNIT_ID);
         adView.setAdSize(AdSize.BANNER);
 
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.adLayout);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.adLayout_search);
         layout.addView(adView);
 
         // Cargar adView con la solicitud de anuncio.
-        AdRequest request = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // Todos los emuladores
-                .addTestDevice("05b354af0a28a6d5")  // Mi teléfono de prueba Galaxy Nexus
-                .build();
+        AdRequest request = new AdRequest.Builder().build();
         adView.loadAd(request);
 
     }
@@ -126,15 +122,7 @@ public class Search extends Activity {
         getMenuInflater().inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.menu_item_share);
 
-        ShareActionProvider myShareActionProvider = (ShareActionProvider) item.getActionProvider();
-
-        Intent myIntent = new Intent();
-        myIntent.setAction(Intent.ACTION_SEND);
-        myIntent.putExtra(Intent.EXTRA_TEXT, "@elultimorey huehuhuehue @elultimorey");
-        myIntent.setType("text/plain");
-
-        myShareActionProvider.setShareIntent(myIntent);
-
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
         return true;
     }
 
@@ -201,13 +189,11 @@ public class Search extends Activity {
                 if (!mentioned.isEmpty()) {
                     User mMentioned = twitter.showUser(mentioned.getMoreMentioned().substring(1, mentioned.getMoreMentioned().length()));
                     lovedGlobal = mMentioned;
-                    Log.d("###", "START");
                     image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
                     // The banner comes always cutted
                     background = downloadBitmap(mMentioned.getProfileBannerURL().substring(0, mMentioned.getProfileBannerURL().length()-3)+ "1500x500");
                     if (mMentioned.getURL()!=null) {
                         HttpURLConnection con = (HttpURLConnection) new URL(mMentioned.getURL()).openConnection();
-                        Log.d("###", mMentioned.getScreenName());
                         con.setInstanceFollowRedirects(false);
                         con.connect();
                         url = con.getHeaderField("Location").toString();
@@ -282,11 +268,21 @@ public class Search extends Activity {
                         });
                     }
                 }
+                // Manage layouts
                 lovedLayoutWho.setAlpha(0);
                 lovedLayout.setAlpha(100);
                 YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.profileImage));
                 YoYo.with(Techniques.BounceIn).duration(700).playOn(findViewById(R.id.profileImage));
                 YoYo.with(Techniques.BounceInDown).duration(700).playOn(findViewById(R.id.names_layout));
+                // Manage ShareActionProvider
+                Intent myIntent = new Intent();
+                myIntent.setAction(Intent.ACTION_SEND);
+                myIntent.putExtra(Intent.EXTRA_TEXT, "." + userScreenName + " " +
+                        getResources().getText(R.string.search_loves) + " " +
+                        lovedGlobal.getScreenName() + " via " + getResources().getText(R.string.app_url));
+                myIntent.setType("text/plain");
+
+                mShareActionProvider.setShareIntent(myIntent);
             }
             else {
                 if (haventMentions)

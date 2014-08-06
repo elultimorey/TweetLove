@@ -485,8 +485,8 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f020029;
     }
     public static final class id {
-        public static final int adLayout=0x7f05002a;
         public static final int adLayout_inbox=0x7f05001d;
+        public static final int adLayout_search=0x7f05002a;
         public static final int arroba_tv=0x7f050019;
         public static final int book_now=0x7f050010;
         public static final int btnSearch=0x7f05001b;
@@ -577,16 +577,16 @@ containing a value of this type.
         public static final int common_google_play_services_update_title=0x7f08001a;
         public static final int common_signin_button_text=0x7f08001b;
         public static final int common_signin_button_text_long=0x7f08001c;
-        public static final int input=0x7f08001d;
-        public static final int logo=0x7f08001e;
-        public static final int quote=0x7f08001f;
-        public static final int report_blank=0x7f080020;
-        public static final int report_mentions=0x7f080021;
-        public static final int report_network=0x7f080022;
-        public static final int report_user=0x7f080023;
-        public static final int search=0x7f080024;
-        public static final int search_loves=0x7f080025;
-        public static final int share=0x7f080026;
+        public static final int inbox_share=0x7f08001d;
+        public static final int input=0x7f08001e;
+        public static final int logo=0x7f08001f;
+        public static final int quote=0x7f080020;
+        public static final int report_blank=0x7f080021;
+        public static final int report_mentions=0x7f080022;
+        public static final int report_network=0x7f080023;
+        public static final int report_user=0x7f080024;
+        public static final int search=0x7f080025;
+        public static final int search_loves=0x7f080026;
         public static final int wallet_buy_button_place_holder=0x7f080027;
     }
     public static final class style {
