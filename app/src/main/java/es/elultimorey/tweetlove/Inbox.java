@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,44 +33,51 @@ public class Inbox extends Activity {
 
     private AdView adView;
     private final static String MY_AD_UNIT_ID = " ";
+    private boolean adGone = false;
+
+    private ShareActionProvider myShareActionProvider;
+    private EditText usernameInbox;
+    private Button btnTwitter;
+    private TextView report;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
 
-        final EditText usernameInbox = (EditText) findViewById(R.id.username_inbox);
-        final Button btnTwitter = (Button) findViewById(R.id.btnSearch);
-        final TextView report = (TextView) findViewById(R.id.report);
+        btnTwitter = (Button) findViewById(R.id.btnSearch);
+        usernameInbox = (EditText) findViewById(R.id.username_editText);
+        report = (TextView) findViewById(R.id.report);
         report.setAlpha(0);
 
         btnTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (usernameInbox.getText() == null || usernameInbox.getText().toString().isEmpty()) {
-                    // havent an username
-                    report.setText(getResources().getString(R.string.report_blank));
-                    report.setAlpha(100);
-                    YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.username_inbox));
-                } else {
-                    ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                    final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
-                    if (activeNetwork != null && activeNetwork.isConnected()) {// online && have an username
-                        Intent i = new Intent(mActivity, Search.class);
-                        i.putExtra("user", usernameInbox.getText().toString());
-                        startActivityForResult(i, SHOW_LOVED);
-                    } else {
-                        // offline
-                        report.setText(getResources().getString(R.string.report_network));
-                        report.setAlpha(100);
-                        YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.report));
-                    }
-                }
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                inputMethodManager.hideSoftInputFromWindow(usernameInbox.getWindowToken(), 0);
+                goSearch();
             }
         });
+
+        usernameInbox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b)
+                    if(adView.getVisibility() == View.VISIBLE)
+                        adView.setVisibility(View.GONE);
+            }
+        });
+        usernameInbox.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    goSearch();
+                }
+
+                return false;
+            }
+        });
+
         adView = new AdView(this);
         adView.setAdUnitId(MY_AD_UNIT_ID);
         adView.setAdSize(AdSize.BANNER);
@@ -80,13 +88,32 @@ public class Inbox extends Activity {
         // Cargar adView con la solicitud de anuncio.
         AdRequest request = new AdRequest.Builder().build();
         adView.loadAd(request);
-        usernameInbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(adView.getVisibility() == View.VISIBLE)
-                    adView.setVisibility(View.GONE);
+
+    }
+
+    private void goSearch() {
+        if (usernameInbox.getText() == null || usernameInbox.getText().toString().isEmpty()) {
+            // havent an username
+            report.setText(getResources().getString(R.string.report_blank));
+            report.setAlpha(100);
+            YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.username_inbox));
+        } else {
+            ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+            if (activeNetwork != null && activeNetwork.isConnected()) {// online && have an username
+                Intent i = new Intent(mActivity, Search.class);
+                i.putExtra("user", usernameInbox.getText().toString());
+                startActivityForResult(i, SHOW_LOVED);
+            } else {
+                // offline
+                report.setText(getResources().getString(R.string.report_network));
+                report.setAlpha(100);
+                YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.report));
             }
-        });
+        }
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputMethodManager.hideSoftInputFromWindow(usernameInbox.getWindowToken(), 0);
     }
 
     @Override
@@ -95,7 +122,7 @@ public class Inbox extends Activity {
         getMenuInflater().inflate(R.menu.inbox, menu);
         MenuItem item = menu.findItem(R.id.menu_item_share);
 
-        ShareActionProvider myShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        myShareActionProvider = (ShareActionProvider) item.getActionProvider();
 
         Intent myIntent = new Intent();
         myIntent.setAction(Intent.ACTION_SEND);
@@ -131,4 +158,19 @@ public class Inbox extends Activity {
             YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.report));
         }
     }
+    @Override
+    public void onResume() {
+        // share
+        if (myShareActionProvider != null) {
+            Intent myIntent = new Intent();
+            myIntent.setAction(Intent.ACTION_SEND);
+            String shareText = getResources().getText(R.string.inbox_share) + " " + getResources().getText(R.string.app_url);
+            myIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+            myIntent.setType("text/plain");
+            myShareActionProvider.setShareIntent(myIntent);
+        }
+
+        super.onResume();
+    }
+
 }

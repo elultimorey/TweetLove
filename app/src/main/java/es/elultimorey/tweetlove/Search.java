@@ -51,6 +51,7 @@ public class Search extends Activity {
     private ParallaxImageView mBackground=null;
     private boolean haventMentions = false;
     private ShareActionProvider mShareActionProvider;
+    private String mShareString;
 
     private AdView adView;
     private final static String MY_AD_UNIT_ID = " ";
@@ -133,9 +134,18 @@ public class Search extends Activity {
 
     @Override
     public void onResume() {
-        super.onResume();
+        // animación header
         if (mBackground!=null)
-            mBackground.unregisterSensorManager();
+            mBackground.registerSensorManager();
+        // share
+        if (mShareActionProvider != null) {
+            Intent myIntent = new Intent();
+            myIntent.setAction(Intent.ACTION_SEND);
+            myIntent.putExtra(Intent.EXTRA_TEXT, mShareString);
+            myIntent.setType("text/plain");
+            mShareActionProvider.setShareIntent(myIntent);
+        }
+        super.onResume();
     }
 
     @Override
@@ -277,11 +287,11 @@ public class Search extends Activity {
                 // Manage ShareActionProvider
                 Intent myIntent = new Intent();
                 myIntent.setAction(Intent.ACTION_SEND);
-                myIntent.putExtra(Intent.EXTRA_TEXT, "." + userScreenName + " " +
-                        getResources().getText(R.string.search_loves) + " " +
-                        lovedGlobal.getScreenName() + " via " + getResources().getText(R.string.app_url));
+                mShareString = ".@" + userScreenName + " " +
+                        getResources().getText(R.string.search_loves) + " @" +
+                        lovedGlobal.getScreenName() + " via " + getResources().getText(R.string.app_url);
+                myIntent.putExtra(Intent.EXTRA_TEXT, mShareString);
                 myIntent.setType("text/plain");
-
                 mShareActionProvider.setShareIntent(myIntent);
             }
             else {
