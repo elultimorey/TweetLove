@@ -7,4 +7,8 @@
         android:title="Share"
         android:actionProviderClass=
             "android.widget.ShareActionProvider" />
+    <item
+        android:id="@+id/menu_item_about"
+        android:showAsAction="collapseActionView"
+        android:title="About" />
 </menu>

@@ -1,7 +1,9 @@
 package es.elultimorey.tweetlove;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -62,10 +64,15 @@ public class Search extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MP", Context.MODE_PRIVATE);
+
         String nombre;
-        Bundle extras = getIntent().getExtras();
-        // se comprueba en Inbox.java que se pasa un usuario
-        nombre = extras.getString("user");
+        nombre = sharedPreferences.getString("username", "@@@@@");
+        if (nombre.equals("@@@@@")) {
+            setResult(Inbox.USER_NOT_EXIST);
+            finish();
+        }
         userScreenName = nombre;
         getActionBar().setTitle("@"+nombre+" "+getResources().getText(R.string.search_loves));
 
@@ -130,6 +137,11 @@ public class Search extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_about:
+                startActivity(new Intent(getApplicationContext(), About.class));
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

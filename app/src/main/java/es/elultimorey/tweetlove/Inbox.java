@@ -3,6 +3,7 @@ package es.elultimorey.tweetlove;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -99,8 +100,13 @@ public class Inbox extends Activity {
             ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
             if (activeNetwork != null && activeNetwork.isConnected()) {// online && have an username
+
+                SharedPreferences sharedPreferences = getSharedPreferences("MP", Context.MODE_PRIVATE);
+                SharedPreferences.Editor sEditor = sharedPreferences.edit();
+                sEditor.putString("username", usernameInbox.getText().toString());
+                sEditor.commit();
+
                 Intent i = new Intent(mActivity, Search.class);
-                i.putExtra("user", usernameInbox.getText().toString());
                 startActivityForResult(i, SHOW_LOVED);
             } else {
                 // offline
@@ -137,6 +143,7 @@ public class Inbox extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
+
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         if (requestCode == SHOW_LOVED) {
