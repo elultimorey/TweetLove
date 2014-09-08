@@ -1,5 +1,8 @@
 package es.elultimorey.tweetlove.Twitter;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;

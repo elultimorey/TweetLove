@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -200,9 +201,14 @@ public class Search extends Activity {
                     User mMentioned = twitter.showUser(mentioned.getMoreMentioned().substring(1, mentioned.getMoreMentioned().length()));
                     lovedGlobal = mMentioned;
                     image = downloadBitmap(mMentioned.getOriginalProfileImageURL());
-                    // The banner comes always cutted
-                    background = downloadBitmap(mMentioned.getProfileBannerURL().substring(0, mMentioned.getProfileBannerURL().length()-3)+ "1500x500");
-                    if (mMentioned.getURL()!=null) {
+                    try {
+                        // The banner comes always cutted
+                        background = downloadBitmap(mMentioned.getProfileBannerURL().substring(0, mMentioned.getProfileBannerURL().length() - 3) + "1500x500");
+                    }
+                    catch (Exception e) {
+                        Log.d("###", "test");
+                    }
+                        if (mMentioned.getURL()!=null) {
                         HttpURLConnection con = (HttpURLConnection) new URL(mMentioned.getURL()).openConnection();
                         con.setInstanceFollowRedirects(false);
                         con.connect();

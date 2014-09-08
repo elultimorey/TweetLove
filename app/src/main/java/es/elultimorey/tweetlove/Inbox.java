@@ -33,7 +33,6 @@ public class Inbox extends Activity {
 
     private AdView adView;
     private final static String MY_AD_UNIT_ID = " ";
-    private boolean adGone = false;
 
     private ShareActionProvider myShareActionProvider;
     private EditText usernameInbox;
@@ -88,7 +87,6 @@ public class Inbox extends Activity {
         // Cargar adView con la solicitud de anuncio.
         AdRequest request = new AdRequest.Builder().build();
         adView.loadAd(request);
-
     }
 
     private void goSearch() {
