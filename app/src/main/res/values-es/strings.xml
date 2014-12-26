@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="quote">¿A quién quieres en twitter?</string>
+    <string name="input">Nombre de Usuario</string>
+    <string name="action_rename">Compartir</string>
+    <string name="report_network">Sin conexión</string>
+    <string name="report_blank">Introduzca un nombre de usuario</string>
+    <string name="report_user">El usuario consultado no existe o tiene el perfil privado</string>
+    <string name="report_mentions">El usuario consultado no ha realizado menciones recientemente</string>
+    <string name="logo">logo</string>
+    <string name="inbox_share">Descubre a quién quieres en Twitter usando </string>
+    <string name="search_loves">quiere a</string>
+    <string name="title_activity_about">Información</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="about_title">¿A quién quieres en Twitter?</string>
+    <string name="about_text">"Averigua a quien quieres en Twitter usando TweetLove.\n\nTweetLove busca información entre tu timeline, tweets y retweets. Y usando esta información obtiene quien el el más querido.\n\nComo es obvio no se puede saber quien es el más querido por unos tweets, es una app para entretener.\n\nEspero que la disfrutes."</string>
+    <string name="joined">Se unió en </string>
+    <string name="de"> de </string>
+    <string name="april">Abril</string>
+    <string name="august">Agosto</string>
+    <string name="december">Diciembre</string>
+    <string name="february">Febrero</string>
+    <string name="january">Enero</string>
+    <string name="july">Julio</string>
+    <string name="march">Marzo</string>
+    <string name="may">Mayo</string>
+    <string name="june">Junio</string>
+    <string name="november">Noviembre</string>
+    <string name="october">Octubre</string>
+    <string name="september">Septiembre</string>
+    <string name="followers">SEGUIDORES</string>
+    <string name="following">SIGUIENDO</string>
+    <string name="action_share">Compartir</string>
+
+</resources>

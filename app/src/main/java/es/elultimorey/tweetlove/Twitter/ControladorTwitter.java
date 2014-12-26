@@ -1,0 +1,65 @@
+package es.elultimorey.tweetlove.Twitter;
+
+import android.util.Log;
+
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.OAuth2Token;
+import twitter4j.conf.ConfigurationBuilder;
+
+/**
+ * Created by jose on 31/07/14.
+ */
+public class ControladorTwitter {
+    private static ControladorTwitter INSTANCE = new ControladorTwitter();
+
+    //TODO: Añadir y borrar keys
+    private static final String CONSUMER_KEY = "0va0sMixCaxhS7Wd2IaK1Q";
+    private static final String CONSUMER_SECRET = "ilfFiilMBwYrtmta4X1cDmrrNCuaPn9iXc4JqGR6P88";
+
+    private Twitter twitter;
+
+    public Twitter getTwitter() {
+        return twitter;
+    }
+
+    private ControladorTwitter() {
+
+        OAuth2Token token;
+
+        token = getOAuth2Token();
+
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+
+        cb.setApplicationOnlyAuthEnabled(true);
+        cb.setOAuthConsumerKey(CONSUMER_KEY);
+        cb.setOAuthConsumerSecret(CONSUMER_SECRET);
+        cb.setOAuth2TokenType(token.getTokenType());
+        cb.setOAuth2AccessToken(token.getAccessToken());
+
+        twitter = new TwitterFactory(cb.build()).getInstance();
+    }
+
+    public static ControladorTwitter getInstance() {
+        return INSTANCE;
+    }
+
+    private OAuth2Token getOAuth2Token() {
+        OAuth2Token token = null;
+        ConfigurationBuilder cb;
+
+        cb = new ConfigurationBuilder();
+        cb.setApplicationOnlyAuthEnabled(true);
+
+        cb.setOAuthConsumerKey(CONSUMER_KEY).setOAuthConsumerSecret(CONSUMER_SECRET);
+
+        try {
+            token = new TwitterFactory(cb.build()).getInstance().getOAuth2Token();
+        } catch (Exception e) {
+            Log.d("Exception", "TwitterFactory->getInstace");
+        }
+
+        return token;
+    }
+
+}

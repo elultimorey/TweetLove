@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.nvanbenschoten.motion/library/1.0.1/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e7b13db2c3c2b2d65f5a22a595949d0e68ade833">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/classes-3a67cd6805e6d09f5b1d52311433db10f7aefa3a.jar" />
+    </item>
+    <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/libs/twitter4j-core-4.0.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="381cf31e9200c2902782f17248d2af18e2ab4c56">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/twitter4j-core-4.0.2-0970332996f12884eccada2f74ef0e6edf1a70b4.jar" />
+    </item>
+    <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.daimajia.easing/library/1.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e88a9ed27f98f8c0701d03d5553ce6111ca34a5b">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/classes-6b0806183bef2cb333de712869b92edecea82dad.jar" />
+    </item>
+    <item
+        jar="/home/jose/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-f1cd2df585decca99f7c8b2d439f9a25e0151420.jar" />
+    </item>
+    <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/classes-440378bfa370167344a210a3a21f29df7c33a859.jar" />
+    </item>
+    <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-ecdaa81d3b545af73fcd847c9b652aaef9c7dffb.jar" />
+    </item>
+    <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.daimajia.androidanimations/library/1.1.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8cec50fc9cc847bad0d6ed7d93814f4b34744521">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/classes-1e73d1ab295646dc00276d0fd1ee5f1c12ae79e8.jar" />
+    </item>
+    <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.github.manuelpeinado.fadingactionbar/fadingactionbar-abc/3.1.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ada4f8fc2f9cf0fb3c66fbe36d86f5c370684ef7">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/classes-7066f019f12c5a6e38e65a927fc18afa2475a90c.jar" />
+    </item>
+    <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.github.manuelpeinado.fadingactionbar/fadingactionbar/3.1.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1db28e119b406a5fe367b63fb1be083d5dfe298a">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/classes-345c0194526ee8af26c1037374e26f1dc1e25f36.jar" />
+    </item>
+    <item
+        jar="/home/jose/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/library-2.4.0-083360bf68d9d2d1c377ccaee0fbf4feb820c1e8.jar" />
+    </item>
+    <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/classes-e79b6b2c7beadf2e38f37bd9512c70dc6ad8831d.jar" />
+    </item>
+
+</items>

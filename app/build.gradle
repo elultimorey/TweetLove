@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "es.elultimorey.tweetlove"
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // FadingActionBar search
+    compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar-abc:3.1.2'
+    // Twitter4j
+    compile files('libs/twitter4j-core-4.0.2.jar')
+    // Motion header search
+    compile 'com.nvanbenschoten.motion:library:1.0.1'
+    // Animations
+    dependencies {
+        compile 'com.nineoldandroids:library:2.4.0'
+        compile 'com.daimajia.easing:library:1.0.0@aar'
+        compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+    }
+}
