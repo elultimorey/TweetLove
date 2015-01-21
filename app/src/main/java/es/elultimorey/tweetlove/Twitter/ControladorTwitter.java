@@ -14,8 +14,8 @@ public class ControladorTwitter {
     private static ControladorTwitter INSTANCE = new ControladorTwitter();
 
     //TODO: Añadir y borrar keys
-    private static final String CONSUMER_KEY = "0va0sMixCaxhS7Wd2IaK1Q";
-    private static final String CONSUMER_SECRET = "ilfFiilMBwYrtmta4X1cDmrrNCuaPn9iXc4JqGR6P88";
+    private static final String CONSUMER_KEY = " ";
+    private static final String CONSUMER_SECRET = " ";
 
     private Twitter twitter;
 

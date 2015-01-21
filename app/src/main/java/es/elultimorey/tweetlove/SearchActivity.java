@@ -27,6 +27,9 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.manuelpeinado.fadingactionbar.extras.actionbarcompat.FadingActionBarHelper;
 import com.nvanbenschoten.motion.ParallaxImageView;
 
@@ -77,6 +80,9 @@ public class SearchActivity extends ActionBarActivity {
     private String mShareString;
 
     String url;
+
+    private AdView adView;
+    private final static String MY_AD_UNIT_ID = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +156,17 @@ public class SearchActivity extends ActionBarActivity {
                 }
             }
         });
+
+        adView = new AdView(this);
+        adView.setAdUnitId(MY_AD_UNIT_ID);
+        adView.setAdSize(AdSize.BANNER);
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.adLayout_search);
+        layout.addView(adView);
+
+        // Cargar adView con la solicitud de anuncio.
+        AdRequest request = new AdRequest.Builder().build();
+        adView.loadAd(request);
 
     }
 

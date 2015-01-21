@@ -58,6 +58,13 @@
         <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/classes-7066f019f12c5a6e38e65a927fc18afa2475a90c.jar" />
     </item>
     <item
+        jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/pre-dexed/debug/classes-ead41397547c417f1d92ed8d32887898828d42f2.jar" />
+    </item>
+    <item
         jar="/home/jose/TWEETLOVE/TweetLove/app/build/intermediates/exploded-aar/com.github.manuelpeinado.fadingactionbar/fadingactionbar/3.1.2/classes.jar"
         jumboMode="false"
         revision="21.1.2"

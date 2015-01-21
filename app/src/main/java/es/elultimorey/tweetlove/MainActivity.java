@@ -16,10 +16,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -29,6 +33,9 @@ public class MainActivity extends ActionBarActivity {
     private ShareActionProvider mShareActionProvider;
 
     TextView reportTextView;
+
+    private AdView adView;
+    private final static String MY_AD_UNIT_ID = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +65,19 @@ public class MainActivity extends ActionBarActivity {
                     startActivityForResult(i, SearchActivity.SHOW_LOVED);
                 }
                 else {
+                    reportTextView.setVisibility(View.VISIBLE);
                     reportTextView.setText(R.string.report_blank);
                     YoYo.with(Techniques.Tada).duration(500).playOn(findViewById(R.id.report));
                 }
+            }
+        });
+
+        usernameInbox.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b)
+                    if(adView.getVisibility() == View.VISIBLE)
+                        adView.setVisibility(View.GONE);
             }
         });
 
@@ -73,6 +90,17 @@ public class MainActivity extends ActionBarActivity {
                     quoteTextView.setText(R.string.quote);
             }
         });
+
+        adView = new AdView(this);
+        adView.setAdUnitId(MY_AD_UNIT_ID);
+        adView.setAdSize(AdSize.BANNER);
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.adLayout_inbox);
+        layout.addView(adView);
+
+        // Cargar adView con la solicitud de anuncio.
+        AdRequest request = new AdRequest.Builder().build();
+        adView.loadAd(request);
     }
 
 
@@ -106,8 +134,8 @@ public class MainActivity extends ActionBarActivity {
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
+        reportTextView.setVisibility(View.GONE);
         if (requestCode == SearchActivity.SHOW_LOVED) {
-            reportTextView.setVisibility(View.GONE);
             switch (resultCode) {
                 case SearchActivity.USER_PRIVATE:
                     // user dont exist or private
