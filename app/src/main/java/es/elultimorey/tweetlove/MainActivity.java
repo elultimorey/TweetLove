@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -21,14 +24,11 @@ import com.daimajia.androidanimations.library.YoYo;
 
 public class MainActivity extends ActionBarActivity {
 
-    //statics
-    public final static int SHOW_LOVED = 42;
-    public final static int USER_NOT_EXIST = 21;
-    public final static int USER_HAVENT_MENTIONS = 22;
-
     Activity mActivity = this;
 
     private ShareActionProvider mShareActionProvider;
+
+    TextView reportTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +38,41 @@ public class MainActivity extends ActionBarActivity {
 
         ImageButton btnTwitter = (ImageButton) findViewById(R.id.btnSearch);
         final EditText usernameInbox = (EditText) findViewById(R.id.username_editText);
+        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
+        final TextView quoteTextView = (TextView) findViewById(R.id.quote);
+
+        reportTextView = (TextView) findViewById(R.id.report);
 
         btnTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = getSharedPreferences("MP", Context.MODE_PRIVATE);
-                SharedPreferences.Editor sEditor = sharedPreferences.edit();
-                sEditor.putString("username", usernameInbox.getText().toString());
-                sEditor.commit();
+                if (!usernameInbox.getText().toString().isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("MP", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor sEditor = sharedPreferences.edit();
+                    sEditor.putString("username", usernameInbox.getText().toString());
+                    sEditor.commit();
+                    sEditor.putBoolean("checkbox", checkBox.isChecked());
+                    sEditor.commit();
 
-                Intent i = new Intent(mActivity, SearchActivity.class);
-                startActivityForResult(i, SHOW_LOVED);
+                    Intent i = new Intent(mActivity, SearchActivity.class);
+                    startActivityForResult(i, SearchActivity.SHOW_LOVED);
+                }
+                else {
+                    reportTextView.setText(R.string.report_blank);
+                    YoYo.with(Techniques.Tada).duration(500).playOn(findViewById(R.id.report));
+                }
             }
         });
 
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    quoteTextView.setText(R.string.quote_to);
+                else
+                    quoteTextView.setText(R.string.quote);
+            }
+        });
     }
 
 
@@ -85,20 +106,23 @@ public class MainActivity extends ActionBarActivity {
 
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
-        if (requestCode == SHOW_LOVED) {
-
-            TextView report = (TextView) findViewById(R.id.report);
+        if (requestCode == SearchActivity.SHOW_LOVED) {
+            reportTextView.setVisibility(View.GONE);
             switch (resultCode) {
-                case USER_HAVENT_MENTIONS:
-                    // user havent recent metions
-                    report.setText(getResources().getString(R.string.report_mentions));
-                    break;
-                case USER_NOT_EXIST:
+                case SearchActivity.USER_PRIVATE:
                     // user dont exist or private
-                    report.setText(getResources().getString(R.string.report_user));
+                    reportTextView.setText(getResources().getString(R.string.report_user));
+                    break;
+                case SearchActivity.USER_HAVENT_MENTIONS:
+                    // user havent recent metions
+                    reportTextView.setText(getResources().getString(R.string.report_mentions));
+                    break;
+                case SearchActivity.USER_DOESNT_EXIST:
+                    // user doesnt exist
+                    reportTextView.setText(getResources().getString(R.string.report_user_exist));
                     break;
             }
-            report.setAlpha(100);
+            reportTextView.setVisibility(View.VISIBLE);
             YoYo.with(Techniques.Tada).duration(700).playOn(findViewById(R.id.report));
         }
     }

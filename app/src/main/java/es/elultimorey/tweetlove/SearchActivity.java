@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -41,7 +40,10 @@ import es.elultimorey.tweetlove.Twitter.ControladorTwitter;
 import es.elultimorey.tweetlove.Twitter.MentionParser;
 import es.elultimorey.tweetlove.Twitter.Mentioned;
 import twitter4j.Paging;
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.User;
 
 /**
@@ -49,9 +51,15 @@ import twitter4j.User;
  */
 public class SearchActivity extends ActionBarActivity {
 
+    public final static int SHOW_LOVED = 01;
+    public final static int USER_PRIVATE = 21;
+    public final static int USER_HAVENT_MENTIONS = 22;
+    public final static int USER_DOESNT_EXIST = 23;
+
     ActionBarActivity mActivity = this;
     FadingActionBarHelper helper;
     String username;
+    Boolean checkbox;
 
     private User lovedGlobal;
     private boolean haventMentions = false;
@@ -61,6 +69,8 @@ public class SearchActivity extends ActionBarActivity {
     LinearLayout progress;
     LinearLayout headerOverlay;
     RelativeLayout searchLayout;
+    RelativeLayout locationLayout;
+    RelativeLayout webLayout;
 
 
     private ShareActionProvider mShareActionProvider;
@@ -94,9 +104,8 @@ public class SearchActivity extends ActionBarActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MP", Context.MODE_PRIVATE);
 
         username = sharedPreferences.getString("username", "@@@@@");
-        if (username.equals("@@@@@")) {
-            finish();
-        }
+        checkbox = sharedPreferences.getBoolean("checkbox", false);
+
 
         // get references
 
@@ -106,17 +115,20 @@ public class SearchActivity extends ActionBarActivity {
         TextView screenName = (TextView) findViewById(R.id.screenName);
         TextView description = (TextView) findViewById(R.id.description);
         TextView location = (TextView) findViewById(R.id.location_text);
-        TextView url = (TextView) findViewById(R.id.url_text);
+        TextView urlTV = (TextView) findViewById(R.id.url_text);
         TextView created = (TextView) findViewById(R.id.created_text);
         TextView tweets = (TextView) findViewById(R.id.numbers_tweets_number);
         TextView following = (TextView) findViewById(R.id.numbers_following_number);
         TextView followers = (TextView) findViewById(R.id.numbers_followers_number);
         ImageView protectedProfile = (ImageView) findViewById(R.id.protected_profile);
 
+        locationLayout = (RelativeLayout) findViewById(R.id.location_layout);
+        webLayout = (RelativeLayout) findViewById(R.id.url_layout);
+
 
         String[] array = {username};
         SearchAsyncTask mSearchAsyncTask = new SearchAsyncTask(background, profileImage, name,
-                screenName, description, location, url, created, tweets, following, followers,
+                screenName, description, location, urlTV, created, tweets, following, followers,
                 protectedProfile);
         mSearchAsyncTask.execute(array);
 
@@ -160,10 +172,6 @@ public class SearchActivity extends ActionBarActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void ch(ActionBar actionBar) {
-
     }
 
     @Override
@@ -210,7 +218,7 @@ public class SearchActivity extends ActionBarActivity {
 
         public SearchAsyncTask (ParallaxImageView background, ImageView profileImage,
                                 TextView name, TextView screenName, TextView description,
-                                TextView location, TextView url, TextView created,
+                                TextView location, TextView urlTextView, TextView created,
                                 TextView tweets, TextView following, TextView followers,
                                 ImageView protectedProfile) {
             super();
@@ -220,7 +228,7 @@ public class SearchActivity extends ActionBarActivity {
             screenNameWeakReference = new WeakReference<TextView>(screenName);
             descriptionWeakReference = new WeakReference<TextView>(description);
             locationWeakReference = new WeakReference<TextView>(location);
-            urlWeakReference = new WeakReference<TextView>(url);
+            urlWeakReference = new WeakReference<TextView>(urlTextView);
             createdWeakReference = new WeakReference<TextView>(created);
             tweetsWeakReference = new WeakReference<TextView>(tweets);
             followingWeakReference = new WeakReference<TextView>(following);
@@ -231,20 +239,39 @@ public class SearchActivity extends ActionBarActivity {
 
         @Override
         protected User doInBackground(String... users) {
+            User user = null;
             try {
                 Twitter twitter = ControladorTwitter.getInstance().getTwitter();
-                User user = twitter.showUser(users[0]);
+                user = twitter.showUser(users[0]);
                 Mentioned mentioned = new Mentioned(user.getScreenName());
-                Paging paging = new Paging(1, 100); // Para más peticiones paging.setPage(2)...
-                List<twitter4j.Status> tweets = null;
-                tweets = twitter.getUserTimeline(user.getScreenName(), paging);
-                twitter4j.Status status;
-                List<String> mentionedList;
-                for (int i = 0; i < tweets.size(); i++) {
-                    status = tweets.get(i);
-                    mentionedList = new MentionParser().getMention(status);
-                    if (mentionedList.size()>0) {
-                        mentioned.addMentioned(mentionedList);
+                if (!checkbox) {        // Get loved
+                    Paging paging = new Paging(1, 100); // Para más peticiones paging.setPage(2)...
+                    List<twitter4j.Status> tweets = null;
+                    tweets = twitter.getUserTimeline(user.getScreenName(), paging);
+                    twitter4j.Status status;
+                    List<String> mentionedList;
+                    for (int i = 0; i < tweets.size(); i++) {
+                        status = tweets.get(i);
+                        mentionedList = new MentionParser().getMention(status);
+                        if (mentionedList.size() > 0) {
+                            mentioned.addMentioned(mentionedList);
+                        }
+                    }
+                } else {
+                    try {
+                        Query query = new Query("@" + username);
+                        QueryResult result;
+                        int count = 0;
+                        do {
+                            result = twitter.search(query);
+                            List<twitter4j.Status> tweets = result.getTweets();
+                            for (twitter4j.Status tweet : tweets) {
+                                mentioned.addMentioned("@" + tweet.getUser().getScreenName());
+                            }
+                            count += tweets.size();
+                        } while ((query = result.nextQuery()) != null && count <= 100);
+                    } catch (TwitterException te) {
+                        Log.d("###", "exception query");
                     }
                 }
                 if (!mentioned.isEmpty()) {
@@ -254,24 +281,36 @@ public class SearchActivity extends ActionBarActivity {
                     try {
                         // The banner comes always cutted
                         background = downloadBitmap(mMentioned.getProfileBannerURL().substring(0, mMentioned.getProfileBannerURL().length() - 3) + "1500x500");
+                    } catch (Exception e) {
+                        // BACKGROUND DOWNLOAD EXCEPTION
+                        background = null;
                     }
-                    catch (Exception e) {
-                        Log.d("###", "BACKGROUND DOWNLOAD EXCEPTION");
-                    }
-                    if (mMentioned.getURL()!=null) {
+                    if (mMentioned.getURL() != null) {
                         HttpURLConnection con = (HttpURLConnection) new URL(mMentioned.getURL()).openConnection();
                         con.setInstanceFollowRedirects(false);
                         con.connect();
                         url = con.getHeaderField("Location").toString();
                     }
                     return mMentioned;
-                }
-                else {
+                } else {
+
                     haventMentions = true;
+                    setResult(USER_HAVENT_MENTIONS);
+                    finish();
                     return null;
                 }
             } catch (Exception e) {
-                return null;
+                if (user != null && user.isProtected()) {
+                    // private user
+                    setResult(USER_PRIVATE);
+                    finish();
+                    return null;
+                } else {
+                    // user doesnt exist
+                    setResult(USER_DOESNT_EXIST);
+                    finish();
+                    return null;
+                }
             }
         }
 
@@ -327,12 +366,15 @@ public class SearchActivity extends ActionBarActivity {
                 }
                 if (locationWeakReference != null) {
                     TextView textView = locationWeakReference.get();
-                    if (textView != null && user.getLocation()!=null)
+                    if (textView != null && !user.getLocation().isEmpty())
                         textView.setText(user.getLocation());
+                    else {
+                        locationLayout.setVisibility(View.GONE);
+                    }
                 }
                 if (urlWeakReference != null) {
                     TextView textView = urlWeakReference.get();
-                    if (textView != null && url!=null) {
+                    if (textView != null && url!=null && !url.isEmpty()) {
                         SpannableString content = new SpannableString(url);
                         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
                         textView.setText(content);
@@ -345,6 +387,8 @@ public class SearchActivity extends ActionBarActivity {
                             }
                         });
                     }
+                    else
+                        webLayout.setVisibility(View.GONE);
                 }
                 if (createdWeakReference != null) {
                     TextView textView = createdWeakReference.get();
@@ -377,7 +421,10 @@ public class SearchActivity extends ActionBarActivity {
                 YoYo.with(Techniques.BounceInDown).duration(500).playOn(findViewById(R.id.names_layout));
 
                 mActivity.getSupportActionBar().setTitle("@"+ username);
-                mActivity.getSupportActionBar().setSubtitle(getResources().getString(R.string.search_loves) + " @" + lovedGlobal.getScreenName());
+                if (checkbox)
+                    mActivity.getSupportActionBar().setSubtitle(getResources().getString(R.string.search_loved) + " @" + lovedGlobal.getScreenName());
+                else
+                    mActivity.getSupportActionBar().setSubtitle(getResources().getString(R.string.search_loves) + " @" + lovedGlobal.getScreenName());
 
 
                 // Manage ShareActionProvider

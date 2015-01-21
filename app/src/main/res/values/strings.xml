@@ -2,13 +2,14 @@
 <resources>
 
     <string name="app_name" translatable="false">Tweet Love</string>
-    <string name="quote">Who do they love on Twitter?</string>
+    <string name="quote">Who do you love on Twitter?</string>
+    <string name="quote_to">Who loves you on Twitter?</string>
     <string name="arroba" translatable="false">\@</string>
     <string name="input">Username</string>
     <string name="action_rename">Share</string>
     <string name="report_network">Disconnected</string>
     <string name="report_blank">Please enter a username</string>
-    <string name="report_user">The requested user does not exist or has the private profile</string>
+    <string name="report_user">The requested user has the private profile</string>
     <string name="report_mentions">The requested user has not recently mentions</string>
     <string name="logo">logo</string>
     <string name="inbox_share">Check to whom you love on Twitter using </string>
@@ -37,6 +38,8 @@
     <string name="followers">FOLLOWERS</string>
     <string name="following">FOLLOWING</string>
     <string name="action_share">Share</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="check_box">To me</string>
+    <string name="search_loved">loved by</string>
+    <string name="report_user_exist">The requested user doesn\'t exist</string>
 
 </resources>

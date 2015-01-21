@@ -37,7 +37,7 @@
                 android:src="@drawable/ic_action_lock_closed"
                 android:layout_toRightOf="@+id/name"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/screenName"
                 android:layout_width="wrap_content"
