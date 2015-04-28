@@ -9,10 +9,10 @@ As it is obvious you can't know who is the beloved with some tweets, it's just a
 
 I hope you enjoy it.
 
-[Download TweetLove App (Previous version)](https://play.google.com/store/apps/details?id=es.elultimorey.tweetlove)
+[Download TweetLove App](https://play.google.com/store/apps/details?id=es.elultimorey.tweetlove)
 
 
 Demo
 ----
 
-![TweetLove on Android 5.0](http://box.jisko.net/i/7f7f0dc0.gif)
+![TweetLove on Android 5.0](http://i.imgur.com/P8OxtQl.gif)
